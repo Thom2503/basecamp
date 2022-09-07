@@ -1,0 +1,40 @@
+Exercises
+
+Stap 1
+1:
+	voorbeeld 1: import webbrowser dit laad een "library" genaamd webbrowser
+	voorbeeld 2: try: met later except:
+	voorbeeld 3: json.load(text) de method load die wordt aangeroepen uit de json library
+	             en die laad de content van de variable genaamd text
+2:
+	voorbeeld van archive.py
+	- grootendeel van de syntax in het programma kan ik begrijpen
+	- dit programma vraagd de gebruiker voor een datum en een website zodat er een browser
+	  wordt geopent met de website maar dan op de datum van wanneer de gebruiker heeft
+	  aangegeven.
+
+Stap 2
+1:
+	x = 13, y = 13, z = 7
+2:
+	omdat er een streepje bijvoorbeeld ingevuld kan worden of een (+31)
+3:
+	omdat er ook een straatnaam is wat een stuk tekst is.
+4:
+	een numeriek serienummer
+5:
+	in de docs staat dat het dan de newline kan strippen
+6:
+	zipcode = "3116 HK"
+	print(zipcode)
+7:
+	favFood = "Pizza"
+	print(favFood)
+	favFood = "Roti"
+	print(favFood)
+8:
+	1: prince = 99
+	   print(prince)
+	2: int
+	3: float
+	4: float
