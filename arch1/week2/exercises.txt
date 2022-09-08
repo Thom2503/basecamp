@@ -1,0 +1,6 @@
+Exercises
+
+Ik heb de vragen beantwoord die mij het meest interesseerde of ik nooit echt overna heb gedacht
+
+Stap 3
+	1: comma voegt een spatie tussen de strings toe
