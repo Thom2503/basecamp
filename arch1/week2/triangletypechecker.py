@@ -3,9 +3,11 @@ side_b = int(input("Side b:\n"))
 side_c = int(input("Side c:\n"))
 
 def triangle_kind(a, b, c):
+    lst = [a, b, c] # om te checken of ze allemaal anders zijn
+
     if a == b == c:
         return "equilateral"
-    elif a != b != c:
+    elif len(lst) == len(set(lst)):
         return "scalene"
     else:
         return "isosceles"
