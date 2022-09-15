@@ -12,8 +12,7 @@ holidays = {"11"   : "Nieuwjaarsdag",
             "2512" : "Kerstmis (eerste)",
             "2612" : "Kerstmis (tweede)"}
 
-month = input("Month:\n")
-day   = input("Day:\n")
+date = input("Date:\n")
 
 def is_holiday(m, d):
     """
@@ -27,7 +26,10 @@ def is_holiday(m, d):
     date = d + m # maak er 1 string van
     if date in holidays.keys():
         return holidays[date]
-    return "Isn't on a holiday"
+    return "Is geen feestdag"
 
+month_day = date.replace(" ", "").split(",")
+month = month_day[0].split(":")[1] # pak de cijfers in de eerste index van month_day
+day   = month_day[1].split(":")[1] # zelfde als maand
 print(is_holiday(month, day))
 

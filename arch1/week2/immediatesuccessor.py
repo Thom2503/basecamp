@@ -27,27 +27,27 @@ def next_day(current_day):
     next_day = "" # nog te vullen variable voor de volgende dag in YYYY-MM-DD format
 
     # functie om een mooie error message te maken
-    error_msg = lambda err : f"Input format: {err}. Correct format 'YYYY-MM-DD'"
+    error_msg = "Input format ERROR. Correct Format: YYYY-MM-DD"
     # check of de lengte correct is
     if len(current_day) != 10:
-        return error_msg("Character length must be 10!")
+        return error_msg
 
     # check of er '-' in zit en niet '/' of '_' om later een array van te maken
     if "-" not in current_day:
-        return error_msg("Missing '-'!")
+        return error_msg
     
     # split het in een lijstje met [jaar, maand, dag]
     date_parts = current_day.split("-")
     
     # check of het jaar een 4 cijfer getal is zoals het format
     if len(date_parts[0]) != 4:
-        return error_msg("Year mus be YYYY!")
+        return error_msg
     # check of de maand niet meer is dan 12 want het kan ook dat er een datum is ingevuld
     if int(date_parts[1]) > 12:
-        return error_msg("Month can't be more than 12!")
+        return error_msg
     # check of de dag niet meer is dan 31, het kan ook zijn dat er jaar is ingevuld
     if int(date_parts[2]) > 31:
-        return error_msg("Day can't be more than 31!")
+        return error_msg
 
     year_days = int(date_parts[0]) * 365 # verander het jaar naar het aantal dagen
     month_days = 0 # aantal dagen van alle maanden bij elkaar
@@ -68,7 +68,7 @@ def next_day(current_day):
         # als het onder de 31 dagen is kan je ervan uitgaan dat het in de eerste maand is
         if days_left < 31:
             # het kan zijn dat een dag 1 cijfer dan moet er een 0 voor komen
-            days_left = days_left if days_left > 10 else "0" + str(days_left)
+            days_left = days_left if days_left >= 10 else "0" + str(days_left)
             next_day = f"{next_year:.0f}-01-{days_left}"
         else:
             month = 0
@@ -82,9 +82,9 @@ def next_day(current_day):
                     break
                 days_left -= days_of_month
             # zelfde als boven
-            days_left = days_left if days_left > 10 else "0" + str(days_left)
+            days_left = days_left if days_left >= 10 else "0" + str(days_left)
             # zelfde als dag moet met maand
-            month = month if month > 10 else "0" + str(month)
+            month = month if month >= 10 else "0" + str(month)
             # nieuwe datum 
             next_day = f"{int(next_year // 1)}-{month}-{days_left}"
 
@@ -95,7 +95,7 @@ def next_day(current_day):
     return next_day
 
 
-current_date = input("What is the current date?\n") 
+current_date = input("") 
 
 result = next_day(current_date)
-print(result)
+print(f"Next date: {result}")
