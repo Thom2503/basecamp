@@ -14,15 +14,15 @@ def check_license_plate(license):
     if len(license) != 8:
         return is_correct
 
-    sections = license.strip("-")
+    sections = license.split("-")
 
-    # check of de eerste 2 cijfers daadwerkelijk cijfers zijn tussen 0 en 9
-    if "0" <= sections[0] <= "9":
+    # check of de eerste 2 cijfers daadwerkelijk cijfers zijn tussen 00 en 99
+    if "00" <= sections[0] <= "99":
         is_correct = True
 
-    # loop door de laatste 2 secties heen en check of de letters tussen A en Z vallen
+    # loop door de laatste 2 secties heen en check of de letters tussen AA en ZZ vallen
     for section in sections[1:]:
-        if "A" <= section <= "Z":
+        if "AA" <= section <= "ZZ":
             is_correct = True
         else:
             is_correct = False
