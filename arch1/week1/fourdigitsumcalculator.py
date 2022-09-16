@@ -1,10 +1,7 @@
-import textwrap
-
 number = input("Enter a 4 digit number you want the sum of:\n")
 
-numbers = textwrap.wrap(number, 1)
 sum = 0
-for i in numbers:
+for i in number:
     sum += int(i)
 
-print(f"Sum: {sum}")
+print(f"{number[0]}+{number[1]}+{number[2]}+{number[3]}={sum}")

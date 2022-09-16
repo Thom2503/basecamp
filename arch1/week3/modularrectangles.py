@@ -1,7 +1,7 @@
 def create_rectangle(w, h):
     """
     Functie om een rechthoek te maken met nummers 0 t/m 9, op basis van de 
-    hoogte en breedte aangegeven door de gebruiker.
+    hoogte en breedte aangegeven door de gebruiker. (while loop)
     
     @param int w - de breedte
     @param int h - de hoogte
@@ -32,7 +32,7 @@ def create_rectangle(w, h):
 def create_rectangle_f(w, h):
     """
     Functie om een rechthoek te maken met nummers 0 t/m 9, op basis van de 
-    hoogte en breedte aangegeven door de gebruiker.
+    hoogte en breedte aangegeven door de gebruiker. (for loop)
     
     @param int w - de breedte
     @param int h - de hoogte
