@@ -52,5 +52,27 @@ def c_to_f_table_for():
     return table
 
 
+def c_to_f_table_for():
+    """
+    Functie om een tafel van celcius naar farhenheit te zien.
+    (for loop, zonder mooide header dingen omdat het niet in codegrade mag)
+
+    @return string - tafel met F -> C
+    """
+    table = ""
+    # lambda functie om Celcius naar Fahrenheit te berekenen
+    convert_to_f = lambda C : C * 1.8 + 32
+
+    table += "C | F \n"
+
+    for C in range(0, 110): # 110 omdat het tot 100 moet gaan
+        # het moet elke 10 graden Celcius zijn
+        if C % 10 == 0:
+            F = int(convert_to_f(C) // 1) # dat het een rond getal is
+            table += f"{C} {F}\n"
+    
+    return table
+
+
 print(c_to_f_table())
 print(c_to_f_table_for())

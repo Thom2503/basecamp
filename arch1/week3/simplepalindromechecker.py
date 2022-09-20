@@ -50,6 +50,6 @@ def is_palindrome_f(word):
 
 woord = input("Woord:\n")
 
-print(is_palindrome(woord))
-print(is_palindrome_w(woord))
-print(is_palindrome_f(woord))
+print("is a palindrome" if is_palindrome(woord) else "is not a palindrome")
+print("is a palindrome" if is_palindrome_w(woord) else "is not a palindrome")
+print("is a palindrome" if is_palindrome_f(woord) else "is not a palindrome")

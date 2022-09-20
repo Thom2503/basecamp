@@ -62,6 +62,6 @@ def is_palindrome_f(text):
 
 tekst = input("Woord/Zin:\n")
 
-print(is_palindrome(tekst))
-print(is_palindrome_w(tekst))
-print(is_palindrome_f(tekst))
+print("is a palindrome" if is_palindrome(tekst) else "is not a palindrome")
+print("is a palindrome" if is_palindrome_w(tekst) else "is not a palindrome")
+print("is a palindrome" if is_palindrome_f(tekst) else "is not a not palindrome")

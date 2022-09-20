@@ -15,7 +15,7 @@ def create_rectangle(w, h):
     current_height = 0
     i = 0 # om bij te houden in welke loop je bent en de rechthoek mee te vullen
     while True:
-        rectangle += str(i % 10)
+        rectangle += f"{i % 10} "
         current_width += 1
         if current_width == w:
             rectangle += "\n" # nu gaat het een laag naar beneden
@@ -45,15 +45,15 @@ def create_rectangle_f(w, h):
 
     for i in range(0, h): # loop de width het aantal van h
         for j in range(0, w): # loop het aantal keer in de width
-            rectangle += str(k % 10)
+            rectangle += f"{k % 10} "
             k += 1
         rectangle += "\n"
 
     return rectangle
 
 
-width = int(input("What's the width of the rectangle?\n"))
 height = int(input("What's the height of the rectangle?\n"))
+width = int(input("What's the width of the rectangle?\n"))
 
 print(create_rectangle(width, height))
 print(create_rectangle_f(width, height))
