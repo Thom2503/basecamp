@@ -89,8 +89,8 @@ def check_salary(salary):
     return True
 
 
-questions = {'more' : 'More Letters?(Yes or No)',
-             'rejection' : 'Job Offer or Rejection?',
+# vragen die gebruikt kunnen worden
+questions = {'rejection' : 'Job Offer or Rejection?',
              'first_name' : 'First Name?',
              'last_name' : 'Last Name?',
              'job' : 'Job title?',
@@ -99,8 +99,7 @@ questions = {'more' : 'More Letters?(Yes or No)',
              'feedback_bool' : 'Feedback? (Yes or No)',
              'feedback' : 'Enter your Feedback (One Statement):'}
 # dictionary met de antwoorden op de vragen erin
-answers = {'more' : None,
-           'rejection' : None,
+answers = {'rejection' : None,
            'first_name' : None,
            'last_name' : None,
            'job' : None,
@@ -109,56 +108,67 @@ answers = {'more' : None,
            'feedback_bool' : None,
            'feedback' : None}
 
-is_rejected = False
-want_feedback = False
+is_rejected = False # voor in de loop om te kijken of het een geweigerde solicitatie is
+want_feedback = False # zelfde als solicitatie maar dan met feedback
 
-for question in questions:
-
-    if is_rejected == True and (question == 'salary' or question == 'start_date'):
+while True:
+    more = input("More Letters?(Yes or No) ")
+    
+    if more not in ['No', 'Yes']:
         continue
-    elif is_rejected == False and (question == 'feedback_bool' or question == 'feedback'):
-        continue
-    elif want_feedback == False and question == 'feedback':
-        continue
+    else:
+        if more == "No":
+            break
 
-    answers[question] = input(f"{questions[question]} ")
-
-    if answers['more'] != None and answers['more'] == "No":
-        break
-    if answers['rejection'] != None and answers['rejection'] == "Rejection":
-        is_rejected = True
-    if answers['feedback_bool'] != None and answers['feedback_bool'] == "Yes":
-        want_feedback = True
-
-    # een while loop om te checken of de antwoorden goed zijn, als die goed zijn kan je uit
-    # deze while loop breken en dan is het een goed antwoord, anders wordt de vraag
-    # herhaald tot dat er een goed antwoord wordt gegeven.
-    while True:
-        if question == 'more' and answers['more'] in ['Yes', 'No']:
-            break
-        elif question == 'rejection' and answers['rejection'] in ['Rejection', 'Job Offer']:
-            break
-        elif question == 'first_name' and (len(answers['first_name']) >= 2 and len(answers['first_name']) <= 10 and answers['first_name'].isalpha()):
-            answers['first_name'] = answers['first_name'].capitalize()
-            break
-        elif question == 'last_name' and (len(answers['last_name']) >= 2 and len(answers['last_name']) <= 10):
-            answers['last_name'] = answers['last_name'].capitalize()
-            break
-        elif question == 'job' and (len(answers['job']) >= 10 and any(c.isdigit() for c in answers['job']) == False):
-            break
-        elif question == 'salary' and check_salary(answers['salary']) == True:
-            break
-        elif question == 'start_date' and check_date(answers['start_date']) == True:
-            break
-        elif question == 'feedback_bool' and answers['feedback_bool'] in ['Yes', 'No']:
-            break
-        elif question == 'feedback' and (len(answers['feedback']) <= 128):
-            break
-        else:
-            answers[question] = input(f"{questions[question]} ")
-
-
-
-full_name = answers['first_name'] + " " + answers['last_name']
-rejection = True if answers['rejection'] == 'Rejection' else False
-print(mail_template(rejection, full_name, answers['job'], answers['salary'], answers['start_date'], answers['feedback']))
+    for question in questions:
+        # je moet de vragen over salaris en start datum over slaan als de solicitatie is geweigerd
+        if is_rejected == True and (question == 'salary' or question == 'start_date'):
+            continue
+        # als de solicitatie niet geweigerd is moet je de feedback vragen overslaan.
+        elif is_rejected == False and (question == 'feedback_bool' or question == 'feedback'):
+            continue
+        # het kan zijn dat er geen feedback gegeven wilt worden sla het dan over.
+        elif want_feedback == False and question == 'feedback':
+            continue
+    
+        answers[question] = input(f"{questions[question]} ")
+        # als het geweigerd wordt sla dat op zodat het gebruikt kan worden bij het checken of vragen
+        # gesteld kunnen worden
+        if answers['rejection'] != None and answers['rejection'] == "Rejection":
+            is_rejected = True
+        # zelfde als geweigerd maar dan met feedback
+        if answers['feedback_bool'] != None and answers['feedback_bool'] == "Yes":
+            want_feedback = True
+    
+        # een while loop om te checken of de antwoorden goed zijn, als die goed zijn kan je uit
+        # deze while loop breken en dan is het een goed antwoord, anders wordt de vraag
+        # herhaald tot dat er een goed antwoord wordt gegeven.
+        while True:
+            if question == 'rejection' and answers['rejection'] in ['Rejection', 'Job Offer']:
+                break
+            elif question == 'first_name' and (len(answers['first_name']) >= 2 and len(answers['first_name']) <= 10 and answers['first_name'].isalpha()):
+                answers['first_name'] = answers['first_name'].capitalize()
+                break
+            elif question == 'last_name' and (len(answers['last_name']) >= 2 and len(answers['last_name']) <= 10):
+                answers['last_name'] = answers['last_name'].capitalize()
+                break
+            elif question == 'job' and (len(answers['job']) >= 10 and any(c.isdigit() for c in answers['job']) == False):
+                break
+            elif question == 'salary' and check_salary(answers['salary']) == True:
+                break
+            elif question == 'start_date' and check_date(answers['start_date']) == True:
+                break
+            elif question == 'feedback_bool' and answers['feedback_bool'] in ['Yes', 'No']:
+                break
+            elif question == 'feedback' and (len(answers['feedback']) <= 128):
+                break
+            else:
+                print("Input error\n")
+                answers[question] = input(f"{questions[question]} ")
+    # concate de voor- en achternaam bij elkaar voor in de mail header
+    full_name = answers['first_name'] + " " + answers['last_name']
+    # in de mail_template functie is een bool nodig om te bepalen of het een weigering is.
+    rejection = True if answers['rejection'] == 'Rejection' else False
+    # zet de mail in elkaar en print het uit
+    print("Here is the final letter to send:\n")
+    print(mail_template(rejection, full_name, answers['job'], answers['salary'], answers['start_date'], answers['feedback']))
