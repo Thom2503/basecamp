@@ -3,7 +3,7 @@ Wat ik deze week moet doen en af wil hebben.
 Dinsdag:
 [x] Plan van aanpak
 [x] Problem 1
-[ ] Problem 2
+[x] Problem 2
 
 Woensdag:
 [ ] Problem 3
