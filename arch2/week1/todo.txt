@@ -16,8 +16,9 @@ NB. al eerder aan begonnen want ik was vrij snel klaar met 3, 4 en 5
 Donderdag:
 [ ] Problem 6 --> naar woensdag
 [ ] Problem 7 --> naar woensdag
-[ ] Assignment (als ik tijd heb)
+[x] Assignment (als ik tijd heb)
 
 Vrijdag:
 [ ] Feedback/code review
-[ ] Assignment
+[x] Assignment
+[ ] Ans test
