@@ -19,6 +19,10 @@ Donderdag:
 [x] Assignment (als ik tijd heb)
 
 Vrijdag:
-[ ] Feedback/code review
+[x] Feedback/code review
 [x] Assignment
-[ ] Ans test
+[x] Ans test
+NB. Extra toevoeging want ik loop aardig voor
+[x] Problem 1 week 6
+[x] Problem 2 week 6
+[x] Problem 3 week 6

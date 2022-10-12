@@ -1,0 +1,21 @@
+Wat ik deze week van plan ben om te doen
+
+Dinsdag:
+[x] Probleem 2 oplossen zoals codegrade het wilt zien
+[x] Probleem 3 oplossen
+[x] Probleem 4
+
+Woensdag:
+[x] Probleem 5
+[ ] Beginnen aan assignment
+
+Donderdag:
+[ ] Verder aan assignment
+[ ] Probleem 1 van volgende week?
+
+Vrijdag:
+[ ] Assignment inleveren
+[ ] ANS zelftest
+[ ] Peerfeedback
+[ ] Probleem 2 van volgende week?
+
