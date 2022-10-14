@@ -25,14 +25,20 @@ def message_to_morse(message):
     @return string morse - de morse code
     """
     morse = ""
+    previous_char = ""
 
     for letter in message.upper():
+        print(previous_char)
         if letter in MORSE_CODE_DICT.keys():
             morse += f"{MORSE_CODE_DICT[letter]} "
         elif letter == " ":
-            morse += "    "
+            # het kan zijn dat je achter een letter zit
+            # maak dat dan 3 spaties inplaats dan 4
+            amount = 3 if previous_char != " " else 4
+            morse += " " * amount
         else:
             return f"Can't convert char [{letter}]"
+        previous_char = letter
 
     return morse
 
@@ -60,7 +66,7 @@ def morse_to_message(morse):
     """
     message = ""
 
-    morse = morse.replace("     ", " # ")  # dankje jurn :)
+    morse = morse.replace("    ", " # ")  # dankje jurn :)
 
     for code in morse.split(" "):
         if code in MORSE_CODE_DICT.values():

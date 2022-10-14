@@ -7,15 +7,15 @@ Dinsdag:
 
 Woensdag:
 [x] Probleem 5
-[ ] Beginnen aan assignment
+[x] Beginnen aan assignment
 
 Donderdag:
-[ ] Verder aan assignment
-[ ] Probleem 1 van volgende week?
+[x] Verder aan assignment
+[x] Assignment inleveren
 
 Vrijdag:
-[ ] Assignment inleveren
-[ ] ANS zelftest
+[x] ANS zelftest
 [ ] Peerfeedback
+[ ] Probleem 1 van volgende week?
 [ ] Probleem 2 van volgende week?
 
