@@ -109,7 +109,7 @@ def list_contacts(first_or_last="first", direction="asc"):
     # is first of last name en die wilt de sorted functie als key
     what_key = "first_name" if first_or_last.lower() == "first" else "last_name"
     # sorteer de lijst
-    addressbook = sorted(addressbook, key=lambda k: k[what_key], reverse=reversed)
+    addressbook = list(sorted(addressbook, key=lambda k: k[what_key], reverse=reversed))
 
     return addressbook
 
@@ -201,7 +201,7 @@ merge duplicates (automated > same fullname [firstname & lastname])
 def merge_contacts():
     # lists met alle data dat nodig is
     # voor het mergen van de contacten
-    found_ids = []
+    ids_to_merge = {}
     duplicate_emails = {}
     duplicate_numbers = {}
     for contact in addressbook:
@@ -212,24 +212,15 @@ def merge_contacts():
         found_contact = find_contact(contact['first_name'], contact['last_name'])
         found_id = found_contact[0]
         must_merge = found_contact[1]
-        if must_merge is True:
+        # check of je kan mergen en of de id van contact niet
+        # overeen komt met de gevonden id want dan moet het
+        # gemerged worden
+        if (must_merge is True) and (contact_id != found_id):
             # stop alle data in de nodige lists om te gebruiken
             # bij de merge
-            found_ids.append({contact_id: found_id})
+            ids_to_merge.update({contact_id: found_id})
             duplicate_emails.update({contact_id: contact['emails']})
             duplicate_numbers.update({contact_id: contact['phone_numbers']})
-    # ids die gemerged moeten gaan worden
-    ids_to_merge = {}
-    # om alle niet duplicates uit de lijst
-    # te halen en in de ids_to_merge dict
-    # doen want dat zijn degene die gemerged moeten worden
-    for idx, id in enumerate(found_ids):
-        key = list(id.keys())[0]
-        val = list(id.values())[0]
-        # als de key en de val niet gelijk zijn
-        # is het een id die gemerged moet worden
-        if key != val:
-            ids_to_merge.update({key: val})
     # loop door de ids heen die gemerged moeten worden
     # die lopen dan weer door de emails en nummers toe
     # die dan worden toegevoegd aan de goede contact
