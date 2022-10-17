@@ -16,6 +16,5 @@ Donderdag:
 Vrijdag:
 [x] ANS zelftest
 [ ] Peerfeedback
-[ ] Probleem 1 van volgende week?
-[ ] Probleem 2 van volgende week?
+[x] Probleem 1 van volgende week?
 

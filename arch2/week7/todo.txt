@@ -1,0 +1,17 @@
+dinsdag:
+[ ] Probleem 1 inleveren
+[ ] Probleem 2 maken/inleveren
+[ ] Peerfeedback van vrijdag
+
+Woensdag:
+[ ] Probleem 2 niet af? Dan verder
+[ ] Beginnen assignment
+
+Donderdag:
+[ ] Verder aan assignment
+[ ] Zelf evaluatie
+
+Vrijdag:
+[ ] ANS zelftest
+[ ] Peerfeedback
+[ ] Assignment inleveren
