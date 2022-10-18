@@ -36,7 +36,7 @@ def load_txt_file(file_name):
     return file_content
 
 
-def fahrenheit_to_celcius(fahrenheit: float) -> float:
+def fahrenheit_to_celsius(fahrenheit: float) -> float:
     """
     Functie om fahrenheit naar celcius te kunnen berekenen
     dit kan bijvoorbeel met map gebruikt worden over een lijst.
@@ -45,7 +45,7 @@ def fahrenheit_to_celcius(fahrenheit: float) -> float:
     @param float fahrenheit - temperatuur om naar celcius
                               te berekenen
     """
-    return (fahrenheit - 32) / 1.8
+    return round((fahrenheit - 32) / 1.8, 4)
 
 
 def average_temp_per_year(temperatures: dict) -> list:
@@ -72,10 +72,9 @@ def average_temp_per_month(temperatures: dict) -> list:
     return month_avg
 
 
-def average(data_points):
-    if (num_points := len(data_points)) == 0:
-        raise ValueError("average requires at least one data point")
-    return round(sum(data_points) / num_points, 4)
+def average(lst):
+    avg = sum(lst) / len(lst)
+    return float(format(avg, 'g'))
 
 
 def parse_temp_data(file_name: str) -> dict:
@@ -148,11 +147,11 @@ def list_all_avg_in_c(data: dict) -> list:
         # daar ceclius van de maken en dan in de dictionary te
         # stoppen
         month_avg = average_temp_per_month(data[year[0]])
-        month_avg_c = list(map(fahrenheit_to_celcius, month_avg))
+        month_avg_c = list(map(fahrenheit_to_celsius, month_avg))
         # loop door de maanden om dan een dictionary te maken
         # met {maand: temperatuur}
         for idx_month, month_temp in enumerate(month_avg_c):
-            month_dict.update({month_names[idx_month]: month_temp})
+            month_dict.update({idx_month + 1: month_temp})
         # voeg het allemaal van dat jaar toe aan de uiteindelijke lijst
         list_avgs.append((year[0], month_dict))
         # reset de dictionary voor het volgende jaar
@@ -171,36 +170,31 @@ def main() -> None:
 [6] Print a list of tuples where the first element of each tuple is the year and
     the second element of the tuple is a dictionary with months as the keys and
     the average temprature (in Celsius) of each month as the value""")
-    quit_program = False
-    while quit_program is False:
-        command = int(input("> "))
-        if command > 6:
-            quit_program = True
-        if command == 1:
-            print(average_temp_per_year(data))
-        if command == 2:
-            years_avg = average_temp_per_year(data)
-            avg_in_c = list(map(fahrenheit_to_celcius, list(zip(*years_avg))[1]))
-            print(list(map(lambda x, y: (y, x), avg_in_c, list(zip(*years_avg))[0])))
-        if command == 3:
-            years_avg = average_temp_per_year(data)
-            warmest_year = max(years_avg, key=lambda item: item[1])
-            coldest_year = min(years_avg, key=lambda item: item[1])
+    command = int(input("> "))
+    if command == 1:
+        print(average_temp_per_year(data))
+    elif command == 2:
+        years_avg = average_temp_per_year(data)
+        avg_in_c = list(map(fahrenheit_to_celsius, list(zip(*years_avg))[1]))
+        print(list(map(lambda x, y: (y, x), avg_in_c, list(zip(*years_avg))[0])))
+    elif command == 3:
+        years_avg = average_temp_per_year(data)
+        warmest_year = max(years_avg, key=lambda item: item[1])
+        coldest_year = min(years_avg, key=lambda item: item[1])
 
-            print((warmest_year[0], coldest_year[0]))
-        if command == 4:
-            year = int(input("Input a year:\n"))
-            month_avg = average_temp_per_month(data[year])
-            idx_max_avg = month_avg.index(max(month_avg))
-            print(month_names[idx_max_avg])
-        if command == 5:
-            year = int(input("Input a year:\n"))
-            month_avg = average_temp_per_month(data[year])
-            idx_min_avg = month_avg.index(min(month_avg))
-            print(month_names[idx_min_avg])
-        if command == 6:
-            print(list_all_avg_in_c(data))
-
+        print((warmest_year[0], coldest_year[0]))
+    elif command == 4:
+        year = int(input("Input a year:\n"))
+        month_avg = average_temp_per_month(data[year])
+        idx_max_avg = month_avg.index(max(month_avg))
+        print(month_names[idx_max_avg])
+    elif command == 5:
+        year = int(input("Input a year:\n"))
+        month_avg = average_temp_per_month(data[year])
+        idx_min_avg = month_avg.index(min(month_avg))
+        print(month_names[idx_min_avg])
+    elif command == 6:
+        print(list_all_avg_in_c(data))
 
 
 if __name__ == "__main__":
