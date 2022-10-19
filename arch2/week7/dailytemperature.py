@@ -19,6 +19,11 @@ month_names = (
 )
 
 
+def average(lst: list) -> float:
+    avg = sum(lst) / len(lst)
+    return float(format(avg, 'g'))
+
+
 def load_txt_file(file_name):
     """
     Functie om een text file in te laden en die te lezen
@@ -48,33 +53,44 @@ def fahrenheit_to_celsius(fahrenheit: float) -> float:
     return round((fahrenheit - 32) / 1.8, 4)
 
 
-def average_temp_per_year(temperatures: dict) -> list:
-
-    year_avgs = []
-
-    for year in temperatures:
-        this_year = temperatures[year]
-        avg_months = average_temp_per_month(this_year)
-        avg_this_year = average(avg_months)
-        year_avgs.append((year, avg_this_year))
-
-    return year_avgs
-
-
 def average_temp_per_month(temperatures: dict) -> list:
-
     month_avg = []
+    tmp = []
     for month in temperatures:
-        temp_lst = temperatures[month]
-        avg_this_month = average(temp_lst)
-        month_avg.append(avg_this_month)
-
+        for temp in temperatures[month]:
+            tmp.append(temp)
+        month_avg.append((month, average(tmp)))
+        tmp = []
     return month_avg
 
 
-def average(lst):
-    avg = sum(lst) / len(lst)
-    return float(format(avg, 'g'))
+# oude implementatie
+# def average_temp_per_year(temperatures: dict) -> list:
+
+#     year_avgs = []
+#     tmp = []
+
+#     for year in temperatures:
+#         avg_months = average_temp_per_month(temperatures[year])
+#         for temp in avg_months:
+#             tmp.append(temp[1])
+#         year_avgs.append((year, average(tmp)))
+#         tmp = []
+
+#     return year_avgs
+
+def average_temp_per_year(temperatures: dict) -> list:
+    years_avg = []
+    tmp = []
+
+    for year in temperatures:
+        for month in temperatures[year]:
+            for temp in temperatures[year][month]:
+                tmp.append(temp)
+        years_avg.append((year, average(tmp)))
+        tmp = []
+
+    return years_avg
 
 
 def parse_temp_data(file_name: str) -> dict:
@@ -147,7 +163,7 @@ def list_all_avg_in_c(data: dict) -> list:
         # daar ceclius van de maken en dan in de dictionary te
         # stoppen
         month_avg = average_temp_per_month(data[year[0]])
-        month_avg_c = list(map(fahrenheit_to_celsius, month_avg))
+        month_avg_c = list(map(fahrenheit_to_celsius, list(zip(*month_avg))[1]))
         # loop door de maanden om dan een dictionary te maken
         # met {maand: temperatuur}
         for idx_month, month_temp in enumerate(month_avg_c):
@@ -186,12 +202,12 @@ def main() -> None:
     elif command == 4:
         year = int(input("Input a year:\n"))
         month_avg = average_temp_per_month(data[year])
-        idx_max_avg = month_avg.index(max(month_avg))
+        idx_max_avg = month_avg.index(max(month_avg, key=lambda item: item[1]))
         print(month_names[idx_max_avg])
     elif command == 5:
         year = int(input("Input a year:\n"))
         month_avg = average_temp_per_month(data[year])
-        idx_min_avg = month_avg.index(min(month_avg))
+        idx_min_avg = month_avg.index(min(month_avg, key=lambda item: item[1]))
         print(month_names[idx_min_avg])
     elif command == 6:
         print(list_all_avg_in_c(data))

@@ -43,7 +43,7 @@ def search_by_type(file_content: list, show_type: str) -> list:
     # maak er lowercase van is makkelijker zoeken
     show_type = show_type.lower()
     # [1] is de type kolom
-    return list(filter(lambda x: x[1].lower() != show_type, file_content))
+    return list(filter(lambda x: x[1].lower() == show_type, file_content))
 
 
 def search_by_director(file_content: list, director: str) -> list:
@@ -100,8 +100,8 @@ def show_show_movie_directors(file_content: list, get_amount: bool = True) -> li
         # alle titels van de director om types op te zoeken
         titles_by_director = search_by_director(file_content, director)
         # zoek alle types om die te tellen
-        movies_by_director = search_by_type(titles_by_director, "movie")
-        shows_by_director = search_by_type(titles_by_director, "tv show")
+        movies_by_director = search_by_type(titles_by_director, "tv show")
+        shows_by_director = search_by_type(titles_by_director, "movie")
         # tel het aantal types
         amount_of_movies = len(movies_by_director)
         amount_of_shows = len(shows_by_director)
@@ -111,8 +111,13 @@ def show_show_movie_directors(file_content: list, get_amount: bool = True) -> li
         else:
             # voeg de tuple toe met de director, aantal films en aantal tv shows
             names.append((director, amount_of_shows, amount_of_movies))
-    # geef de lijst terug en sorteer die op alfabetische form
-    return sorted(names, key=lambda x: x[0])
+    if get_amount is True:
+        # geef de lijst terug en sorteer die op alfabetische form
+        return sorted(names, key=lambda x: x[0])
+    else:
+        # om te sorteren op de voornaam word de naam gesplitst
+        # en dan de eerste item uit gepakt om daar op te sorteren
+        return sorted(names, key=lambda x: x.split(" ")[0])
 
 
 def main() -> None:
@@ -127,9 +132,9 @@ def main() -> None:
     command = int(input())
     if command == 1:
         # - 1 om de header te vergeten
-        print(len(search_by_type(titles, "movie")) - 1)
+        print(len(search_by_type(titles, "tv show")))
     elif command == 2:
-        print(len(search_by_type(titles, "tv show")) - 1)
+        print(len(search_by_type(titles, "movie")))
     elif command == 3:
         print(show_show_movie_directors(titles, False))
     elif command == 4:

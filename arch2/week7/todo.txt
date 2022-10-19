@@ -1,11 +1,11 @@
 dinsdag:
-[ ] Probleem 1 inleveren
-[ ] Probleem 2 maken/inleveren
+[x] Probleem 1 inleveren
+[x] Probleem 2 maken/inleveren
 [ ] Peerfeedback van vrijdag
 
 Woensdag:
-[ ] Probleem 2 niet af? Dan verder
-[ ] Beginnen assignment
+[x] Probleem 2 niet af? Dan verder
+[x] Beginnen assignment
 
 Donderdag:
 [ ] Verder aan assignment
