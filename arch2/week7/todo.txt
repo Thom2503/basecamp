@@ -1,17 +1,17 @@
 dinsdag:
 [x] Probleem 1 inleveren
 [x] Probleem 2 maken/inleveren
-[ ] Peerfeedback van vrijdag
 
 Woensdag:
 [x] Probleem 2 niet af? Dan verder
 [x] Beginnen assignment
+[x] Assignment inleveren
+(update woensdag, ik heb het al af was namelijk niet een moeilijke opdracht)
 
 Donderdag:
-[ ] Verder aan assignment
-[ ] Zelf evaluatie
+[x] Zelf evaluatie
+[x] Dossier verder werken
 
 Vrijdag:
-[ ] ANS zelftest
+[x] ANS zelftest
 [ ] Peerfeedback
-[ ] Assignment inleveren
