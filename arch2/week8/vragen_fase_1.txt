@@ -1,0 +1,10 @@
+Onze antwoorden op de vragen in fase 1.
+
+What is the quality of the measurements? How can you check this?
+De kwaliteit van de metingen zijn vrij accuraat op heel veel decimalen.
+Dit hebben wij via de online simulator gedaan en als er met de slider
+39 graden Celcius staat krijg je dat ook geprint in python.
+
+Is it possible to correct the measurements (using calibration) in order to make the measurements more accurate?
+Het is al vrij accuraat en wij zouden niet weten wat we moeten doen
+om het meer accuraat te krijgen. Het moet alleen afgerond worden.
