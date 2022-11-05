@@ -1,0 +1,57 @@
+Mijn conclusie van deze challenge week.
+Thom Veldhuis - 1055805
+
+
+Wat vond ik van de opdracht?
+
+	Ik vond het wel een leuke opdracht, omdat het een vrij ander
+iets is dan dat wij hebben gedaan. Dat het anders was maakte
+het ook wel een wat mindere opdracht want ik heb eigenlijk
+niks terug gevonden van wat wij de afgelopen arch geleerd hebben.
+	Maar ik heb wel andere dingen geleerd deze tijdens deze
+challenge. Ik wist namelijk eerst niet hoe je met matplotlib
+werkt en dat weet ik nu wel.
+
+
+Wat heb ik deze week geleerd?
+
+	Zo als ik al heb geschreven heb ik geleerd hoe je matplotlib
+kan gebruiken en waarvoor. Deze library kende ik al maar heb nooit
+echt een moment gehad waar ik dit zou moeten gebruiken dus dit
+was een perfect leermoment. Daarbij heb ik ook meer geleerd over
+statistieken en de benamingen, ik heb dat nooit uitgebreid gehad
+tijdens wiskunde bijvoorbeeld. Veel namen kende ik wel maar wist ik
+niet precies wat ik daar mee moest/kon.
+
+
+Wat kon beter tijdens deze opdracht?
+
+	Ik heb aardig wat tijd "verspild" in het laten werken van iets
+waarvan ik al had kunnen verwachten dat het niet zou werken. Zoals
+het kunnen uploaden naar de server vanuit trinket.io .
+
+
+Wat ging goed tijdens deze opdracht?
+
+	Ik vond het wel goed dat wij eerst kleine programmatjes schreven
+met een basis van wat het uiteindelijk moet worden. Hierdoor konden
+we makkelijker testen en als alles goed was ook heel snel door naar
+het volgende.
+	Het uiteindelijk programma waar we de "dashboard" op hebben,
+konden we ook makkelijk uitbreiden, als je iets wil toevoegen kan
+je een functie schrijven en een elif toevoegen bij de main functie.
+Als je de functie goed had geschreven zou het gelijk goed moeten werken.
+
+
+Wat kon beter bij de opdracht?
+
+	De manual die we hadden gekregen om de raspberry pi op te zetten
+kon duidelijker, want zo goed als iedereen in de klas had de raspberry
+pi gereset terwijl dat niet hoefde waardoor we veel tijd verspild hebben
+aan wachten tot iedereen zijn/haar ip adres kon vinden op de beamer.
+	Naast dit was de opdracht niet heel moeilijk en eigenlijk te klein
+om aan die minimum van 28 uur te komen, heel veel uit de klas waren ook
+op donderdag al zo goed als klaar.
+	Het laatste waar wij last van hadden was dat dit niet echt een opdracht
+voor twee personen is, dus wij hebben veel gedaan via pair programming 
+(simpel gezegd 1 computer met 2 personen die code typen).

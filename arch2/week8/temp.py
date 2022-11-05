@@ -1,6 +1,7 @@
 from sense_hat import SenseHat
 import time
 import random
+import requests
 
 """
   Sense HAT Sensors Display
@@ -9,10 +10,12 @@ import random
   Note: Requires sense_hat 2.2.0 or later
 """
 
+KEY = "K3_PB1rRLsF9BdqL98dMQQ"  # TOP SNEAKY SNEAKY
+
 items = []
 
-# Patronen in sets van 2 zodat die weet waar de
-# pixels ingekleurd moeten worden
+# de plekken waar de pixels geplaats moeten worden
+# op de 8x8 matrix
 numberPattern = [
     [2, 9, 11, 17, 19, 25, 27, 33, 35, 42],   # 0
     [2, 9, 10, 18, 26, 34, 41, 42, 43],       # 1
@@ -27,20 +30,40 @@ numberPattern = [
 ]
 
 sense = SenseHat()
-
+# de kleuren die getoont worden op de sense hat
 green = (135, 233, 17)
 red = (225, 24, 69)
 blue = (0, 87, 233)
 white = (255, 255, 255)
 
+# de verschillende data punten
+sensors = ["temp", "pressure", "humidity"]
 
-def display_two_digits(f_number: float, color: str) -> None:
+
+def upload_data(data: dict) -> None:
+    """
+    Functie om de data te uploaden naar de server. Dit geeft een systemexit
+    error als het fout gaat.
+
+    @param dict data - de data die als json wordt verstuurd
+    """
+    url = f"https://api.basecampserver.tech/sensors?key={KEY}"
+
+    try:
+        resp = requests.post(url, json=data)
+        resp.raise_for_status()
+        print(f"uploaded data at: {data['timestamp']}")
+    except requests.exceptions.HTTPError as err:
+        print(SystemExit(err))
+
+
+def display_two_digits(f_number: float, colour: str) -> None:
     """
     Functie om een getal van 2 getallen te maken en die te tonen
     dit kan een negatief getal zijn.
 
     @param float f_number - het getal om te tonen
-    @param str   color    - de kleur om te gebruiken
+    @param str   colour    - de kleur om te gebruiken
     """
     # check of het nummer een negatief nummer is
     # zodat in de hoek onder een - kan komen
@@ -59,23 +82,23 @@ def display_two_digits(f_number: float, color: str) -> None:
     # en maak die dan in een lijstje die in pixels veranderd wordt
     digit_glyph = numberPattern[first_digit]
     for i in range(0, len(digit_glyph)):
-        pixels[digit_glyph[i]] = color
+        pixels[digit_glyph[i]] = colour
     # zelfde als bij het eerste getal maar dan met de tweede en paar
     # plekjes opgeschoven
     digit_glyph = numberPattern[second_digit]
     for i in range(0, len(digit_glyph)):
-        pixels[digit_glyph[i]+4] = color
+        pixels[digit_glyph[i]+4] = colour
 
     # als het een negatief nummer is plaats de drie pixels voor de -
     if negative:
-        pixels[56] = color
-        pixels[57] = color
-        pixels[58] = color
+        pixels[56] = colour
+        pixels[57] = colour
+        pixels[58] = colour
 
     # als het meer dan 2 nummers zijn zet de laatste pixel dan naar de
     # kleur om dat aan te geven.
     if f_number > 99:
-        pixels[63] = color
+        pixels[63] = colour
 
     # toon het resultaat
     sense.set_pixels(pixels)
@@ -99,15 +122,22 @@ def update_screen(mode: str) -> None:
         display_two_digits(pressure, green)
     elif mode == "humidity":
         display_two_digits(humidity, blue)
+
+    # maak een dictionary van de data om die te uploaden als json
+    data = {
+        "timestamp": round(time.time()),
+        "temperature": temp,
+        "humidity": humidity,
+        "pressure": pressure
+    }
+
     # voeg aan de lijst toe die naar de server wordt geupload
-    items.append({"timestamp": time.time(), "temperature": temp, "humidity": humidity, "pressure": pressure})
+    items.append(data)
+    upload_data(data)
 
-
-sensors = ["temp", "pressure", "humidity"]
 
 while True:
     events = sense.stick.get_events()
     current_mode = sensors[random.randint(0, 2)]
     update_screen(current_mode)
-    print(items)
     time.sleep(1.5)
