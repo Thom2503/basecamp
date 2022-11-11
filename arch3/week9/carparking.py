@@ -45,9 +45,6 @@ class CarParkingMachine:
         self.hourly_rate: float = hourly_rate
         self.parked_cars: dict = parked_cars
 
-        # om bij te houden hoeveel autos er ingecheckt zijn
-        self.current_capacity: int = 0
-
     def get_parking_fee(self, license_plate: str) -> float:
         """
         Functie om het tarief te berekenen op basis hoe lang de
@@ -81,20 +78,18 @@ class CarParkingMachine:
 
     def check_in(self, license_plate: str, check_in: datetime = DateTimeHelper.get_now()) -> bool:
         # check of het al vol is
-        if self.current_capacity == self.capacity:
+        if len(self.parked_cars) == self.capacity:
             return False
 
         # check of de auto niet al is geparkeerd
         if license_plate in self.parked_cars.keys():
             return False
 
-        # er is nu 1 auto geparkeerd
-        self.current_capacity += 1
-
         # maak een nieuw geparkeerde auto object aan.
         parked_car = ParkedCar(license_plate, check_in)
         # voeg de nieuwe auto toe aan de parked_cars dictionary
         self.parked_cars.update({license_plate: parked_car})
+        return True
 
     def check_out(self, license_plate: str) -> float:
         if license_plate in self.parked_cars.keys():

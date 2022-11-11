@@ -1,0 +1,15 @@
+arch 1
+concreet leerdoel
+structureren van module code schrijven.
+niet in valkuilen
+acties verbinden aan leerdoelen
+
+Gesprek uitgeschreven:
+Arch 2 voelde niet heel anders dan arch 1.
+Mijn leerdoelen zoals het herbruiken van code
+concreet opschrijven met echte acties die te meten
+zijn. Zoals het terug kijken in de code en zoeken
+naar code die ik opnieuw zou kunnen gebruiken.
+
+Omdat ik niet moeilijk wil nadenken over makkelijke dingen
+dat veroorzaakt soms dat ik in een valkuil val.

@@ -8,13 +8,19 @@ Dinsdag:
 
 Woensdag:
 [x] Problem 3
-[ ] Problem 4
+[x] Problem 4
 [x] Beginnen aan assignment
 
 Donderdag:
-[ ] Verder aan assignment
+[x] Verder aan assignment
+[x] Gespreksverslag inleveren (op donderdag)
+[x] Plan van aanpak
 
 Vrijdag:
-[ ] Assignment afmaken en inleveren
-[ ] ANS Zelftest
+[x] Assignment afmaken en inleveren (woensdag als maar nog geen 10)
+[x] ANS Zelftest
 [ ] Peerfeedback
+-- omdat ik tijd over had
+[x] Problem 1 week 10
+[x] Problem 2 week 10 (denk dat ik het goed heb)
+[x] Optioneel problem ook gedaan.
