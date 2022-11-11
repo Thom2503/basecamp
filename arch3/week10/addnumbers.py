@@ -1,21 +1,19 @@
 from os import path
-import fileinput
 import sys
 
 
-def add_linenumbers(file_path: str) -> None:
+def add_linenumbers(read_file: str, write_file: str) -> None:
     """
     Voeg lijn nummers toe aan het bestand
     """
-
-    # open het bestand met fileinput om het uit te lezen
-    # inplace is zodat je de het bestand veranderd op de lijn
-    # terwijl je stdout gebruikt
-    for line in fileinput.input(files=file_path, inplace=True):
-        # schrijf via de standard output naar de file
-        # gebruik filelineno van fileinput om de het lijn nummer
-        # te krijgen
-        sys.stdout.write(f"{fileinput.filelineno()} {line}")
+    # open beide de input en output bestanden om te lezen
+    # en te kunnen schrijven.
+    with open(read_file, "r") as file_r:
+        with open(write_file, "w") as file_w:
+            # loop door het gelezen bestand met enumerate
+            # om ook de lijn nummer te krijgen.
+            for i, line in enumerate(file_r):
+                file_w.write(f"{i}: {line}")
 
 
 def main() -> str:
@@ -27,6 +25,7 @@ def main() -> str:
     # daar is namelijk het bestand die we willen uitlezen
     try:
         input_file = sys.argv[1]
+        output_file = sys.argv[2]
     except IndexError:
         # als de tweede element in argv leeg is is er geen file mee gegeven
         return "No parameter given!"
@@ -35,7 +34,7 @@ def main() -> str:
     if path.exists(input_file) is not True:
         return "File does not exists!"
 
-    add_linenumbers(input_file)
+    add_linenumbers(input_file, output_file)
     return "Linenumbers added!"
 
 
