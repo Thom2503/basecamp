@@ -1,10 +1,14 @@
 from os import path
-import sys
 
 
 def add_linenumbers(read_file: str, write_file: str) -> None:
     """
     Voeg lijn nummers toe aan het bestand
+
+    :param read_file: str, welk bestand je wilt lezen
+    :param write_file: str, bestand waar de content + lijn nummer van read_file komt
+
+    :return None
     """
     # open beide de input en output bestanden om te lezen
     # en te kunnen schrijven.
@@ -13,7 +17,7 @@ def add_linenumbers(read_file: str, write_file: str) -> None:
             # loop door het gelezen bestand met enumerate
             # om ook de lijn nummer te krijgen.
             for i, line in enumerate(file_r):
-                file_w.write(f"{i}: {line}")
+                file_w.write(f"{i}. {line}")
 
 
 def main() -> str:
@@ -21,14 +25,9 @@ def main() -> str:
     Main functie om waar het programma vanuit wordt
     gedraaid
     """
-    # probeer het tweede element uit argv op te halen
-    # daar is namelijk het bestand die we willen uitlezen
-    try:
-        input_file = sys.argv[1]
-        output_file = sys.argv[2]
-    except IndexError:
-        # als de tweede element in argv leeg is is er geen file mee gegeven
-        return "No parameter given!"
+
+    input_file = input("Input file:\n")
+    output_file = input("Output file:\n")
 
     # als het bestand niet bestaat moet je een error krijgen
     if path.exists(input_file) is not True:

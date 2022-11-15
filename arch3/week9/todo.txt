@@ -24,3 +24,4 @@ Vrijdag:
 [x] Problem 1 week 10
 [x] Problem 2 week 10 (denk dat ik het goed heb)
 [x] Optioneel problem ook gedaan.
+[ ] Problem 4 week 10

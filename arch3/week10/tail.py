@@ -2,32 +2,13 @@ from os import path
 import sys
 
 
-def read_file(file_path: str) -> str:
-    """
-    Lees de laatste 10 lines in een bestand.
-    """
-    # een lijst met de individuele lijnen om de eerste
-    # 10 van te krijgen
-    file_lines = []
-
-    # open het bestand om het uit te lezen
-    with open(file_path, "r+") as file:
-        content = file.read()
-        # split de gelezen content om aan de
-        # lijst toe te voegen
-        file_lines += content.split("\n")[-10:]
-
-    # maak een string van de eerste 10 lines
-    return "\n".join(file_lines)
-
-
 def read_file_once(file_path: str) -> str:
     """
     Lees de eerste 10 lines in een bestand.
     """
     # open het bestand om het uit te lezen
     with open(file_path, "r+") as file:
-        return "\n".join(file.read().split("\n")[-10:])
+        return "\n".join(file.read().split("\n")[-11:-1])
 
 
 def main() -> str:
