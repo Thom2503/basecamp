@@ -1,0 +1,2 @@
+16-11-2022 11:14:36;cpm_name=West;license_plate=12-AA-BB;action=check-in
+16-11-2022 16:41:32;cpm_name=West;license_plate=12-AA-BB;action=check-out;parking_fee=15.0

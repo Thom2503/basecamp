@@ -8,7 +8,7 @@ def read_file_once(file_path: str) -> str:
     """
     # open het bestand om het uit te lezen
     with open(file_path, "r+") as file:
-        return "\n".join(file.read().split("\n")[-11:-1])
+        return "\n".join(file.read().split("\n")[-10:])
 
 
 def main() -> str:
