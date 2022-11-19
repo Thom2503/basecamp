@@ -15,9 +15,11 @@ Woensdag:
 
 Donderdag:
 [x] Problem 10 (Dinsdag al af)
-[ ] Verder werken aan de assignment
+[x] Verder werken aan de assignment
 
 Vrijdag:
-[ ] Assignment afmaken + inleveren
-[ ] ANS Zelftest
-[ ] Peerfeedback
+[x] Assignment afmaken + inleveren
+[x] ANS Zelftest
+[x] Peer evaluatie invullen en doorsturen
+# Als ik tijd over heb
+[x] Problem 1 week 11

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # ParkedCar class to store information of parked cars.
 
@@ -52,7 +52,7 @@ class CarParkingLogger:
     ingecheckt en uitgecheckt.
     """
     def __init__(self, id=""):
-        self.id = id
+        self.id: str = id
 
     def log_action(self, license_plate: str, action: str, time: datetime, fee: float = 0.0):
         """
@@ -70,15 +70,21 @@ class CarParkingLogger:
         with open("carparklog.txt", "a") as log_file:
             log_file.write(log_text)
 
-    def get_checked_in_cars(self, name: str, action: str = "check-in") -> dict:
+    def get_checked_in_cars(self, name: str, action: str = "check-in", all_cpm: bool = False) -> dict:
         """
         Zoek alle autos die ingecheckt zijn in deze garage.
         """
         parked_cars = {}
         with open("carparklog.txt", "r") as file:
             log_lines = file.readlines()
+            car_no = 0  # om bij te houden welk nummer in de log line het is voor het uitlezen
+
+            # loop door alle lines in de logfile om per line de verschillende data in een dictionary
+            # te stoppen zodat die gebruikt kan worden om parked_cars te vullen
             for line in log_lines:
                 line_data = {}
+
+                # lees de verschillende data en stop die in een dictionary voor deze specifieke lijn
                 for data in line.split(";"):
                     try:
                         data_name, data_value = data.split("=")
@@ -86,8 +92,35 @@ class CarParkingLogger:
                     except ValueError:
                         line_data.update({"time": data})
 
-                if line_data['cpm_name'] == name and line_data['action'] == action:
-                    parked_cars.update({line_data['license_plate']: line_data['time']})
+                # check of de naam klopt uit de data en de functie parameter dan kan je door
+                # behalve als je alle meters wilt uitlezen bij bijvoorbeeld get_total_car_fee()
+                if line_data['cpm_name'] == name or all_cpm is True:
+
+                    # als de actie niet check in is wil ik de data krijgen van de auto
+                    # en dan specifiek de tijd en de parking fee om die te gebruiken in andere methods
+                    if action != "check-in":
+                        try:
+                            check_out_data = [line_data['time'], line_data['parking_fee']]
+                            # de key van de license_plate is met een # en een nummer toegevoegd
+                            # omdat een auto in meerdere keren uitgecheckt kan zijn en die moet je dan
+                            # niet de hele tijd overschrijven
+                            parked_cars.update({line_data['license_plate'] + "#" + str(car_no): check_out_data})
+                        except KeyError:
+                            continue
+                    else:
+                        # als de auto in de data al is een keertje is gevonden en dit keer checkt die uit
+                        # mag je hem uit de uiteindelijke parked cars dictionary halen want die data
+                        # is niet meer nodig
+                        if line_data['license_plate'] in parked_cars.keys() and line_data['action'] == "check-out":
+                            parked_cars.pop(line_data['license_plate'])
+                        else:
+                            license = line_data['license_plate']
+                            date_time = DateTimeHelper.str_to_time(line_data['time'])
+
+                            # maak gelijk ook een object van de auto zodat het gelijk in CarParkingMachine
+                            # te gebruiken is
+                            parked_cars.update({line_data['license_plate']: ParkedCar(license, date_time)})
+                car_no += 1
 
         return parked_cars
 
@@ -96,12 +129,40 @@ class CarParkingLogger:
         Geef het totaal aantal aan parking fees terug als float op
         basis van de naam en gegeven datum
         """
+        sum_fee = 0.0
         # check of de datum correct is die is meegegeven
         if DateTimeHelper.is_correct_format(date) is False:
             return 0.0
 
         checked_out_cars = self.get_checked_in_cars(name, "check-out")
-        checked_in_cars = self.get_checked_in_cars(name)
+
+        for license, data in checked_out_cars.items():
+            # check of de data een list is zodat je die kan gebruiken
+            if isinstance(data, list):
+                # zorg dat de datum in de data veranderd word zodat het
+                # vergeleken kan worden met de parameter
+                str_to_date = DateTimeHelper.str_to_time(data[0])
+                correct_date = DateTimeHelper.time_to_str(str_to_date, "%d-%m-%Y")
+                if correct_date == date:
+                    sum_fee += float(data[1])
+
+        return round(sum_fee, 2)
+
+    def get_total_car_fee(self, license_plate: str) -> float:
+        """
+        Bereken het totaal aantal fee van een geparkeerde auto
+        """
+        sum_fee = 0.0
+        checked_out_cars = self.get_checked_in_cars(self.id, "check-out", True)
+
+        for license, data in checked_out_cars.items():
+            # split op de # en haal het eerste uit de lijst want dat
+            # is de data die we moeten gebruiken om te kunnen filteren
+            license = license.split("#")[0]
+            if isinstance(data, list) and license == license_plate:
+                sum_fee += float(data[1])
+
+        return round(sum_fee, 2)
 
 
 class ParkedCar:
@@ -109,9 +170,9 @@ class ParkedCar:
     Class voor een geparkeerde auto met een tijd van inchecken en kenteken.
     """
 
-    def __init__(self, license, checked_in):
+    def __init__(self, license, check_in):
         self.license: str = license
-        self.checked_in: datetime = checked_in
+        self.check_in: datetime = check_in
 
 
 class CarParkingMachine:
@@ -123,10 +184,13 @@ class CarParkingMachine:
     def __init__(self, capacity=10, hourly_rate=2.50, parked_cars={}, id=""):
         self.capacity: int = capacity
         self.hourly_rate: float = hourly_rate
-        self.parked_cars: dict = parked_cars
         self.id: str = id
 
         self.logger = CarParkingLogger(self.id)
+        if len(self.logger.get_checked_in_cars(self.id)) > 0:
+            self.parked_cars: dict = self.logger.get_checked_in_cars(self.id)
+        else:
+            self.parked_cars: dict = parked_cars
 
     def get_parking_fee(self, license_plate: str) -> float:
         """
@@ -141,17 +205,18 @@ class CarParkingMachine:
 
         # haal de huidige datetime en die van de auto op
         # zodat je het tarief kan berekenen. Rond de uren van nu ook naar boven af.
-        current_hour = DateTimeHelper.round_up(DateTimeHelper.get_now()).hour
-        current_day = DateTimeHelper.round_up(DateTimeHelper.get_now()).day
-
-        parked_car_hour = parked_car_obj.checked_in.hour
-        parked_car_day = parked_car_obj.checked_in.day
+        current_hour = DateTimeHelper.round_up(DateTimeHelper.get_now())
+        parked_car_time = parked_car_obj.check_in
 
         # bereken hoeveel uur de auto geparkeerd is.
-        hours_parked = current_hour - parked_car_hour
+        parked_diff = current_hour - parked_car_time
+        hours_parked = parked_diff.total_seconds() / 3600
+        # rond de hours_parked naar boven af om een heel uur te maken voor de minuten enz.
+        # dit kan met bijvoorbeeld -(-2//3) zonder de math module (dit zou ik nooit zo doen...)
+        hours_parked = -(-hours_parked//1)
 
         # als de dag anders is maar de uren hetzelfde of meer is het hoogstwaarschijnlijk >24 uur
-        if current_day != parked_car_day and current_hour >= parked_car_hour:
+        if hours_parked >= 24:
             fee = self.hourly_rate * 24
         # als het resultaat 0 is moet je nog wel een tarief betalen
         elif hours_parked == 0:
@@ -190,18 +255,6 @@ class CarParkingMachine:
         else:
             return 0
 
-    def update_parked_cars(self):
-        """
-        Update de dictionary met de autos die in de log staan
-        """
-        logged_cars = self.logger.get_checked_in_cars(self.id)
-
-        for license_plate, time in logged_cars.items():
-            time = DateTimeHelper.str_to_time(time)
-            new_parked = ParkedCar(license_plate, time)
-
-            self.parked_cars.update({license_plate: new_parked})
-
 
 def main():
     # build menu structure as following
@@ -210,7 +263,6 @@ def main():
     # [O] Check-out car by license plate
     # [Q] Quit program
     parking_machine = CarParkingMachine(id="West")
-    parking_machine.update_parked_cars()
     print("""Welcome to the parking garage!
 [I] Check-in car by license plate
 [O] Check-out car by license plate
