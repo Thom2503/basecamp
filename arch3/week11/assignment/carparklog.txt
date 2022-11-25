@@ -1,0 +1,10 @@
+18-11-2022 09:52:42;cpm_name=South;license_plate=12-AA-BB;action=check-in
+18-11-2022 09:52:42;cpm_name=South;license_plate=XXX;action=check-in
+18-11-2022 09:52:42;cpm_name=South;license_plate=34-CC-DD;action=check-in
+18-11-2022 09:52:42;cpm_name=South;license_plate=56-EE-FF;action=check-in
+19-11-2022 15:52:42;cpm_name=South;license_plate=12-AA-BB;action=check-out;parking_fee=60.0
+20-11-2022 12:52:42;cpm_name=South;license_plate=12-AA-BB;action=check-in
+21-11-2022 15:32:21;cpm_name=South;license_plate=12-AA-BB;action=check-out;parking_fee=60.0
+25-11-2022 13:54:02;cpm_name=West;license_plate=92-AZ-RE;action=check-in
+25-11-2022 13:54:13;cpm_name=West;license_plate=84-AA-ER;action=check-in
+25-11-2022 13:54:19;cpm_name=West;license_plate=92-AZ-RE;action=check-out;parking_fee=2.5

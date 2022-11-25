@@ -1,0 +1,64 @@
+Zorg dat je vraag on topic is dus over programmeren en dat het in
+het Engels gevraagd wordt. Het is ook niet de bedoeling dat het
+echt een afsluiting heeft er kan altijd nieuwe info komen.
+
+Voor dat je een vraag stelt zoek of die niet al eerder is gesteld,
+dat hoeft niet specifiek op stack overflow te zijn.
+
+Wees specifiek in de titel, dat een soort samenvatting van de vraag
+maakt.
+
+Introduceer het probleem eerst en laat dan pas je code zien. Het kan
+zijn dat je al verkeerd denk over het probleem. Maar dit laat ook al
+je denkwijze zien.
+
+Help andere met het reproduceren van het probleem zodat mensen die
+helpen ook zelf dingen kunnen uitproberen.
+
+Stop alle relevante tags erbij zodat het te sorteren is voor later.
+
+Lees het eerst nog goed door voor dat je post zodat je al de fouten
+enz. er uit kan halen. Maar ook dat je het misschien duidelijker
+kan maken. Je moet dan ook checken op spelling, grammatica enz.
+
+Geef antwoord op je feedback, laat de post niet in de steek.
+Raak dan ook niet gefrustreerd door comments die gegeven zijn.
+
+En vraag voor help met het vragen voor help.
+
+Hoe ik de vraag stel op stack overflow
+Titel:
+Unicode Decode error bij het inladen van een json bestand in Python 3.10
+
+Casus:
+Bij het inladen van een json document krijg ik een foutmelding
+over UnicodeDecodeError. Dit gebeurt alleen op mijn Windows
+pc en niet op mijn mac.
+
+Dit is hoe ik het inlaad:
+```
+def load_json(file_path):
+    movies = []
+
+    with open(file_path, "r") as json_file:
+        try:
+            movies = json.load(json_file)
+        except (TypeError, ValueError):
+            return "No valid json"
+
+    return movies
+```
+Dit is de error die ik krijg:
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 1471: character maps to <undefined>
+
+Antwoord op de vraag:
+Het probleem ligt bij de manier hoe de open()[1] functie in python werkt.
+Die laad het in en dat moet met een bepaalde encoding zijn. De codecs zijn
+op basis van unicode encoding. [2]
+Je kan dit oplossen door bij de functie als keyword argument encoding="UTF-8"
+mee te geven zodat je de codec specificeert.
+Of je kan het in binary mode lezen met "rb" zodat de codec dynamisch wordt gekozen.
+
+[1] https://docs.python.org/3/library/functions.html#open
+[2] https://docs.python.org/3/library/codecs.html#standard-encodings
+[3] https://www.evanjones.ca/python-utf8.html
