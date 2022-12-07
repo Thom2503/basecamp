@@ -1,0 +1,25 @@
+Wat ik deze week van plan ben om te doen
+
+Dinsdag:
+[x] Gastlezing
+[x] Beginnen aan de challenge zoals 
+    brainstormen en een planning maken
+[x] Todo afmaken op basis van die planning
+[x] Logboek schrijven
+
+Woensdag:
+[x] Kleine standup om te overleggen over de dag
+[x] Beginnen aan de investment strategies
+    of misschien al afmaken
+[x] Beginnen aan de plots
+
+Donderdag:
+[x] Standup met Robin
+[x] Verder aan de plots
+[ ] Docent gesprek (als ik ingeplanned staat) # naar volgende week
+
+Vrijdag:
+[x] Bot maken voor de game
+[x] Proberen alles af te maken
+[x] Conclussie schrijven over de challenge week
+[x] Verder werken aan mijn dossier

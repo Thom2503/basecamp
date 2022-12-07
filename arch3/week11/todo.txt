@@ -11,11 +11,11 @@ Woensdag:
 [x] Voorbereidingen doen voor standup Donderdag
 
 Donderdag:
-[ ] Zelf evaluatie maken
-[ ] Verder aan de assignment
-[ ] Test schrijven voor de assignment
+[x] Zelf evaluatie maken
+[x] Verder aan de assignment
+[x] Test schrijven voor de assignment
 
 Vrijdag:
-[ ] Assignment inleveren
-[ ] ANS Zelftest
+[x] Assignment inleveren
+[x] ANS Zelftest
 [ ] Peerfeedback?

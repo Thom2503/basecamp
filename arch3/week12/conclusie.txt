@@ -1,0 +1,45 @@
+Mijn conclusie van deze challenge week.
+Thom Veldhuis - 1055805
+
+
+Wat vond ik van de opdracht?
+
+	Ik vond het idee niet heel aansprekend voor mij,
+want ik hou niet heel veel van rijk worden met crypto.
+Maar de opdracht zelf was wel leuk met weer het uitlezen
+van data en dat analyzeren om interessante grafieken er
+uit te krijgen.
+
+Wat heb ik deze week geleerd?
+
+	Deze week heb ik weer meer geleerd over statistieken
+zoals wat "candlestick" grafieken zijn voor aandelen. Of
+hoe je bijvoorbeeld pieken en dalen kan vinden in een
+dataset. Het was ook wel leuk om te leren over andere
+strategieen om in crypto te kunnen stappen.
+
+Wat kon beter tijdens deze opdracht?
+
+	Ik had wat minder tijd moeten stoppen in het koppig
+te werk krijgen van het maken van een "candlestick" grafiek
+terwijl ik wist dat het niet kon met onze gelimiteerde dataset.
+
+Wat ging goed tijdens deze opdracht?
+
+	Het maken van een Investor class zoals we op deze manier
+hebben gedaan. Iedereen had aparte functies gemaakt voor de
+verschillende investeerders, maar wij zagen al gauw dat er
+veel meer gemeen is tussen de investeerders en dat je alleen
+de conditie voor 2 ifs hoeft aan te passen.
+	Om dat idee hebben wij een class gemaakt die voor alle
+investeerders hetzelfde doet maar dan alleen de check voor
+het kopen of verkopen anders door verschillende eigen
+gemaakte methods te gebruiken.
+
+Wat kon beter bij de opdracht?
+
+	De uitleg was soms nog een beetje vaag, waardoor het niet
+heel duidelijk was wat je eigenlijk moest maken.
+	Het was jammer dat de game, wat lijkt op een belangrijk
+onderdeel niet af was en dat daar nog aan gewerkt werd tijdens
+de challenge.

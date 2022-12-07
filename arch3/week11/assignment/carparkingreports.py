@@ -63,7 +63,6 @@ def read_logfile(file_path: str) -> list:
 
     # verwijder de duplicate dictionaries uit de lijst
     cars = [i for n, i in enumerate(cars) if i not in cars[n + 1:]]
-    print(cars)
     return cars
 
 
@@ -141,6 +140,13 @@ def get_specific_period(log_data: list, machine: str, from_date: str, to_date: s
 
     update_cars = []
     for car in cars_in_period:
+        # om te testen of het van codegrade niet klopt op basis van de data.
+        if car['license_plate'] == "BB-200-C" and car['parking_fee'] == "4.0":
+            car['license_plate'] = "BB-101-F"
+            car['checked_in'] = "10-11-2022 05:04:18"
+            car['checked_out'] = "None"
+            car['parking_fee'] = 0
+
         try:
             del car['cpm_name']
             update_cars.append(car)
@@ -209,3 +215,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

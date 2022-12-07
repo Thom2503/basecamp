@@ -1,0 +1,39 @@
+Onze antwoorden op de vragen:
+
+Wat is een database en wat kan je er mee?
+	een db kan je vergelijken met een kast. daar bewaar je dingen in
+
+Welke soorten/types database bestaan er? (structureren van informatie opslag)
+	- een relational database (wordt vrij wel het meeste gebruikt). Dit gebruikt tables om data in te stoppen
+	- hierarchische database, dit kan je een beetje zien als een stamboom met elke keer een parent object en 
+	  een child object daar onder.
+	- NoSQL dit gebruikt geen SQL en daar gebruik je dan bijvoorbeeld json.
+
+Kan je een voorbeeld geven/opzoeken van een applicatie die een database gebruikt?
+	Alle crud applicaties, zoals websites met gebruikers die content kunnen uploaden, verwijderen, zien en aanpassen.
+	Zoals twitter, youtube, wikipedia.
+
+Welke informatie wordt er opgeslagen en waarom?
+	Bij twitter kan er bijvoorbeeld een table zijn met user accounts met daar in een handle, datum gemaakt, volgers,
+	volgend. Dit kan in relatie zijn met een tweets table waar je dan bijvoorbeeld tweet content in heb en wie het
+	getweet heeft en die is weer in relatie met comments enz.
+
+Wat is een tabel? Wat zijn table rows en columns?
+	Een tabel zorgt ervoor dat de data netjes in rows en columns wordt gezet. Een column is waar de data namen
+	komen te staan en een row weergeeft de data die behoort tot de columns.
+	
+Wat is een SQL query en wat kan je er mee?
+	Een SQL query is om makkelijk data te kunnen vinden, veranderen en verwijderen in een sql database.
+
+Met welke SQL statements kan je data uit een tabel opvragen, toevoegen, verwijderen en bewerken?
+	Om te opvragen:
+	SELECT  * from student;
+
+	Om toe te voegen:
+	INSERT INTO student WHERE values
+
+	Om te verwijderen:
+	DELETE name from student WHERE name = "Piet"
+
+	Om te bewerken:
+	UPDATE student SET name=lala? WHERE name=blabla
