@@ -7,14 +7,22 @@ Dinsdag:
 
 Woensdag:
 [x] Problem 1 afmaken
-[ ] Problem 2 beginnen
+[x] Problem 2 beginnen
+[x] Docentengesprek
+# was sneller klaar dan gedacht
+[x] Beginnen aan de asssignment
+
 
 Donderdag:
 [ ] Problem 2 afmaken
 [ ] Beginnen aan de asssignment
-[ ] Docentengesprek (als ik ingeplanned sta...)
+[ ] Docentengesprek (als ik ingeplanned sta...) # verplaats
+# nieuw ivm verplaatsing planning
+[x] Verder aan de asssignment werken
+[x] Test schrijven voor 2 functies uit problem 2
 
 Vrijdag:
-[ ] Assignment afmaken
-[ ] ANS Zelftest
+[x] Assignment afmaken
+[x] ANS Zelftest
 [ ] Peerfeedback?
+[x] Reflectie week 13
