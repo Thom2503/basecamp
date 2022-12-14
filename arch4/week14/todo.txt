@@ -1,17 +1,23 @@
 Wat ik deze week van plan ben om te doen
 
 Dinsdag:
-[ ] Problem 1
-[ ] Problem 2
+[x] Problem 1
+[x] Problem 2
+[x] test schrijven voor problem 1
 
 Woensdag:
-[ ] Beginnen aan de assignment
+[ ] Conclusie deel 2 schrijven
+[x] Beginnen aan de assignment
+# was een minder grote assignment dan gedacht
+[x] Assignemnt afmaken
+[x] Assignemnt inleveren
 
 Donderdag:
 [ ] Assignemnt afmaken
+[ ] Assignemnt inleveren
 [ ] Peer evaluatie maken
 
 Vrijdag:
-[ ] Assignemnt inleveren
 [ ] ANS Zelftest
 [ ] Peerfeedback?
+[ ] Verder werken aan mijn dossier
