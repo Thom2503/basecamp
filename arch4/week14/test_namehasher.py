@@ -1,4 +1,7 @@
 from namehasher import *
+import subprocess
+
+subprocess.call("cat test_namehasher.py > $FIXTURES/test_cg_namehasher.py", shell=True)
 
 
 def test_encode_string():

@@ -6,7 +6,7 @@ Dinsdag:
 [x] test schrijven voor problem 1
 
 Woensdag:
-[ ] Conclusie deel 2 schrijven
+[x] Conclusie deel 2 schrijven
 [x] Beginnen aan de assignment
 # was een minder grote assignment dan gedacht
 [x] Assignemnt afmaken
@@ -15,9 +15,7 @@ Woensdag:
 Donderdag:
 [ ] Assignemnt afmaken
 [ ] Assignemnt inleveren
-[ ] Peer evaluatie maken
+[x] Verder aan het dossier
 
 Vrijdag:
-[ ] ANS Zelftest
-[ ] Peerfeedback?
-[ ] Verder werken aan mijn dossier
+[x] Verder werken aan mijn dossier (bijlagen toevoegen)
