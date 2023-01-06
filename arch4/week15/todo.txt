@@ -4,14 +4,14 @@ Dinsdag:
 [x] Problem 1
 [x] Problem 2
 [x] Problem 3
-[ ] Conclusie deel 3
+[x] Conclusie deel 3
 
 Woensdag:
-[ ] Assignment maken
+[x] Assignment maken
 
 Donderdag:
-[ ] Assignemnt afmaken
+[x] Assignemnt afmaken
 
 Vrijdag:
-[ ] dossier doorlezen en alle
+[x] dossier doorlezen en alle
     taal fouten enz fixen
