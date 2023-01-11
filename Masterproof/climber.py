@@ -1,4 +1,4 @@
-from expedition import Expedition
+from __future__ import annotations
 from datetime import datetime, date
 import sqlite3
 
@@ -34,14 +34,15 @@ class Climber:
 
         :return expeditions: list, lijst met de expeditons van de climber
         """
+        from expedition import Expedition
         cur = self.db_conn.cursor()
 
         expeditions = []
         sq_get_expeditions = """
             SELECT `expeditions`.* FROM `expeditions`
-            LEFT JOIN `expedition_climbers`
-            ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
-            WHERE `expedition_climbers`.`climber_id` = :cid
+              LEFT JOIN `expedition_climbers`
+              ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+              WHERE `expedition_climbers`.`climber_id` = :cid
         """
         output = cur.execute(sq_get_expeditions, {'cid': self.id})
         result = output.fetchall()

@@ -1,4 +1,4 @@
-from expedition import Expedition
+from __future__ import annotations
 import sqlite3
 
 
@@ -27,29 +27,31 @@ class Mountain:
 
         :return expeditons: list, lijst met de expeditons
         """
-        expeditons = []
+        from expedition import Expedition
+
+        expeditions = []
 
         cur = self.db_conn.cursor()
         sq_get_expeditions = """
             SELECT * FROM `expeditions`
-            WHERE `mountain_id` = :mid
+              WHERE `mountain_id` = :mid
         """
         output = cur.execute(sq_get_expeditions, {'mid': self.id})
         result = output.fetchall()
         for row in result:
             # Maak een dictionary van de row om het makkelijker en duidelijk te kunnen gebruiken
             dict_row = {output.description[i][0]: row[i] for i in range(len(row))}
-            expediton = Expedition(dict_row['id'],
-                                   dict_row['name'],
-                                   dict_row['mountain_id'],
-                                   dict_row['start_location'],
-                                   dict_row['date'],
-                                   dict_row['country'],
-                                   dict_row['duration'],
-                                   dict_row['success'])
-            expeditons.append(expediton)
+            expedition = Expedition(dict_row['id'],
+                                    dict_row['name'],
+                                    dict_row['mountain_id'],
+                                    dict_row['start_location'],
+                                    dict_row['date'],
+                                    dict_row['country'],
+                                    dict_row['duration'],
+                                    dict_row['success'])
+            expeditions.append(expedition)
 
-        return expeditons
+        return expeditions
 
     # Representation method
     # This will format the output in the correct order

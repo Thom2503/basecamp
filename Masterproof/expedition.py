@@ -41,15 +41,17 @@ class Expedition:
 
         :return climbers: list, lijst van climbers die mee hebben gedaan
         """
+        from climber import Climber
+
         climbers = []
 
         cur = self.db_conn.cursor()
         sq_select_climbers = """
             SELECT `climbers`.*
-            FROM `climbers`
-            LEFT JOIN `expedition_climbers`
-            ON `expedition_climbers`.`climber_id` = `climbers`.`id`
-            WHERE `expedition_climbers`.`expedition_id` = :eid
+              FROM `climbers`
+              LEFT JOIN `expedition_climbers`
+              ON `expedition_climbers`.`climber_id` = `climbers`.`id`
+              WHERE `expedition_climbers`.`expedition_id` = :eid
         """
         output = cur.execute(sq_select_climbers, {'eid': self.id})
         result = output.fetchall()
@@ -72,7 +74,27 @@ class Expedition:
 
         :return mountain: Mountain, de berg van de expedition
         """
-        mountain = None
+        from mountain import Mountain
+
+        cur = self.db_conn.cursor()
+        sq_select_mountain = """
+            SELECT `mountains`.*
+              FROM `mountains`
+              LEFT JOIN `expeditions`
+              ON `mountains`.`id` = `expeditions`.`mountain_id`
+              WHERE `expeditions`.`id` = :eid
+        """
+        output = cur.execute(sq_select_mountain, {'eid': self.id})
+        result = output.fetchone()
+        dict_row = {output.description[i][0]: result[i] for i in range(len(result))}
+
+        mountain = Mountain(dict_row['id'],
+                            dict_row['name'],
+                            dict_row['country'],
+                            dict_row['rank'],
+                            dict_row['height'],
+                            dict_row['prominence'],
+                            dict_row['range'])
 
         return mountain
 

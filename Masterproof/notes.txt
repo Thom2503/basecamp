@@ -1,0 +1,48 @@
+SELECT `climber_id`, COUNT(`expedition_id`) as `c`
+  FROM `expedition_climbers`
+  GROUP BY `climber_id`
+  ORDER BY `c` DESC;
+
+
+Zonder where:
+WITH `max_subquery` AS (
+  SELECT COUNT(`expedition_id`) as `c`
+    FROM `expedition_climbers`
+    GROUP BY `climber_id`
+    ORDER BY `c` DESC
+)
+SELECT `climbers`.*
+  FROM `climbers`
+    LEFT JOIN `expedition_climbers`
+    ON `expedition_climbers`.`climber_id` = `climbers`.`id`
+    LEFT JOIN `expeditions`
+    ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+  WHERE `expeditions`.`success` = 1
+  GROUP BY `expedition_climbers`.`climber_id`
+  ORDER BY COUNT(`expedition_climbers`.`expedition_id`) DESC
+  LIMIT (SELECT MAX(`c`) FROM `max_subquery`);
+
+Met where:
+WITH `max_subquery` AS (
+  SELECT COUNT(`expedition_id`) as `c`
+    FROM `expedition_climbers`
+    GROUP BY `climber_id`
+    ORDER BY `c` DESC
+)
+SELECT `climbers`.*
+  FROM `climbers`
+    LEFT JOIN `expedition_climbers`
+    ON `expedition_climbers`.`climber_id` = `climbers`.`id`
+    LEFT JOIN `expeditions`
+    ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+  GROUP BY `expedition_climbers`.`climber_id`
+  ORDER BY COUNT(`expedition_climbers`.`expedition_id`) DESC
+  LIMIT (SELECT MAX(`c`) FROM `max_subquery`);
+
+Om duplicates te verwijderen
+DELETE FROM `mountains`
+WHERE `id` NOT IN (
+	SELECT MIN(`id`)
+	FROM `mountains`
+	GROUP BY `name`
+);

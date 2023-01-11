@@ -148,7 +148,6 @@ def list_to_json(file_path: str, lst: list) -> None:
     :param lst: list, list of dictionaries
     """
     assert isinstance(lst[0], dict) is True, "lst: list items does not contain dictionaries!"
-    assert os.path.exists(file_path) is True, f"Input file ({file_path}) to read from doesn't exists"
 
     json_items = json.dumps(lst, indent=4)
 
@@ -183,7 +182,6 @@ def list_to_csv(file_path: str, content: list) -> None:
     """
 
     assert isinstance(content[0], dict) is True, "lst: list items does not contain dictionaries!"
-    assert os.path.exists(file_path) is True, f"Input file ({file_path}) to read from doesn't exists"
 
     # headers die csv nodig heeft
     headers = content[0].keys()

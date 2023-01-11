@@ -10,6 +10,27 @@ from expedition import Expedition as Expedition
 FILE_NAME = "expeditions.json"
 
 
+def is_empty_db(cur: object) -> bool:
+    """
+    Functie om te checken of de database tabellen leeg zijn.
+    Als die leeg zijn moeten die opgevuld worden met de mountains,
+    climbers en expeditions.
+
+    :return bool, of het leeg is of niet (true = leeg, false = niet leeg)
+    """
+    # query om alle namen van de tables te krijgen om te zoeken of ze leeg zijn
+    result = cur.execute("SELECT `name` FROM `sqlite_master` WHERE `type` = 'table'").fetchall()
+    tables = [x[0] for x in result]
+
+    for table in tables:
+        # query om te tellen hoeveel rows er zijn
+        result = cur.execute(f"SELECT COUNT(*) FROM `{table}`").fetchone()
+        # als de count 0 is is de table leeg
+        if result[0] == 0:
+            return True
+    return False
+
+
 def add_mountains(cur: object):
     """
     Voeg de bergen uit de json file toe aan de database
@@ -23,7 +44,7 @@ def add_mountains(cur: object):
         (`name`, `country`, `rank`, `height`, `prominence`, `range`)
         VALUES (:name, :country, :rank, :height, :prominence, :range)
     """
-    mountains = []
+    mountains = []  # lijst met toegevoegde bergen om duplicates te vermijden
     for expedition in data:
         mountain_data = expedition['mountain']
 
@@ -34,6 +55,8 @@ def add_mountains(cur: object):
         prominence = int(mountain_data['prominence'])
         range = mountain_data['range']
 
+        # als de naam in de lijst gevonden is is het hoogstwaarschijnlijk
+        # een duplicate en kan je het toevoegen overslaan
         if name in mountains:
             continue
 
@@ -59,7 +82,9 @@ def add_expeditions(con: object):
         (`id`, `first_name`, `last_name`, `nationality`, `date_of_birth`)
         VALUES (:cid, :first, :last, :nationality, :birthday)
     """
-    climber_ids = []
+
+    climber_ids = []  # lijst met toegevoegde climbers zodat er geen duplicates in zitten
+
     sq_add_expedition = """
         INSERT OR REPLACE INTO `expeditions`
         (`id`, `name`, `mountain_id`, `start_location`, `date`, `country`, `duration`, `success`)
@@ -70,6 +95,7 @@ def add_expeditions(con: object):
         name = expediton['name']
         mountain_name = expediton['mountain']['name']
 
+        # query om de berg te zoeken voor de id in het object en database
         sq_select_mountain = "SELECT `id` FROM `mountains` WHERE `name` = :mName LIMIT 1"
         result = cur.execute(sq_select_mountain, {'mName': mountain_name}).fetchone()
         mountain_id = int(result[0])
@@ -88,6 +114,7 @@ def add_expeditions(con: object):
 
         cur.execute(sq_add_expedition, sq_data)
         con.commit()
+        # maak een Expedition opbject aan om de climber te kunnen verbinden in expedition_climbers table
         cur_expedition = Expedition(id, name, mountain_id, start, date, country, duration, success)
 
         for climber in expediton['climbers']:
@@ -97,9 +124,12 @@ def add_expeditions(con: object):
             nationality = climber['nationality']
             birthday = tv.str_to_time(climber['date_of_birth'], "%d-%m-%Y")
 
+            # maak een climber object aan om die te kunnen verbinden
             cur_climber = Climber(climber_id, first_name, last_name, nationality, birthday)
-            cur_expedition.add_climber(cur_climber)
+            cur_expedition.add_climber(cur_climber)  # verbind de climber aan de huidige expedition
 
+            # als de climber al is toegevoegd hoeft dat niet meer aan de database
+            # en kan de loop overgeslagen worden
             if climber_id in climber_ids:
                 continue
 
@@ -115,8 +145,16 @@ def add_expeditions(con: object):
 def main():
     con = sqlite3.connect("climbersapp.db")
     cur = con.cursor()
-    add_mountains(cur)
-    add_expeditions(con)
+
+    is_empty = is_empty_db(cur)
+    if is_empty is True:
+        # zorg eerst dat de bergen zijn toegevoegd omdat expeditions die
+        # gebruikt
+        add_mountains(cur)
+
+        # voeg expeditions toe aan de database tegelijkertijd ook met
+        # de climbers van die expedition om de connectie te maken
+        add_expeditions(con)
 
 
 if __name__ == "__main__":

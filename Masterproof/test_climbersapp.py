@@ -56,4 +56,8 @@ def test_amount_of_climbers_on_expedition():
 
 # Test to validate if the given mountain of a specified expedition is correct
 def test_mountain_on_expedition():
-    pass
+    Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
+    mountain_obj = Momhil.get_mountain()
+
+    # als het id klopt kan je er van uit gaan dat het allemaal klopt
+    assert mountain_obj.id == 65, "Het id van de berg van deze expedition zou 65 moeten zijn"
