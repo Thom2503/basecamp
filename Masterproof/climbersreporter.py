@@ -35,7 +35,7 @@ class Reporter:
               ORDER BY `height` DESC
               LIMIT 1
         """
-        output = self.cur.execute(sq_select_mountain).fetchone()
+        output = self.cur.execute(sq_select_mountain)
         result = output.fetchone()
         dict_row = {output.description[i][0]: result[i] for i in range(len(result))}
 
@@ -67,7 +67,7 @@ class Reporter:
         expeditions = []
 
         for row in result:
-            dict_row = {output.description[i][0]: result[i] for i in range(len(row))}
+            dict_row = {output.description[i][0]: row[i] for i in range(len(row))}
             expedition = Expedition(dict_row['id'],
                                     dict_row['name'],
                                     dict_row['mountain_id'],
@@ -102,7 +102,7 @@ class Reporter:
         expeditions = []
 
         for row in result:
-            dict_row = {output.description[i][0]: result[i] for i in range(len(row))}
+            dict_row = {output.description[i][0]: row[i] for i in range(len(row))}
             expedition = Expedition(dict_row['id'],
                                     dict_row['name'],
                                     dict_row['mountain_id'],
@@ -121,15 +121,9 @@ class Reporter:
         climbers = []
 
         sq_select_climbers = """
-            WITH `max_subquery` AS (
-              SELECT COUNT(`expedition_id`) as `c`
-              FROM `expedition_climbers`
-              GROUP BY `climber_id`
-              ORDER BY `c` DESC
-            )
             SELECT `climbers`.*
-              FROM `climbers`
-                LEFT JOIN `expedition_climbers`
+              FROM `expedition_climbers`
+                LEFT JOIN `climbers`
                 ON `expedition_climbers`.`climber_id` = `climbers`.`id`
                 LEFT JOIN `expeditions`
                 ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
@@ -142,8 +136,14 @@ class Reporter:
 
         sq_select_climbers += """
               GROUP BY `expedition_climbers`.`climber_id`
-              ORDER BY COUNT(`expedition_climbers`.`expedition_id`) DESC
-              LIMIT (SELECT MAX(`c`) FROM `max_subquery`);
+              HAVING COUNT(`expedition_climbers`.`climber_id`) = (
+                SELECT MAX(`t1`.`count`)
+                FROM (
+                  SELECT COUNT(`expedition_id`) as `count`
+                  FROM `expedition_climbers`
+                  GROUP BY `climber_id`
+                ) `t1`
+              );
         """
 
         output = self.cur.execute(sq_select_climbers)
@@ -210,7 +210,7 @@ class Reporter:
             ORDER BY `date` ASC
             LIMIT 1;
         """
-        output = self.cur.execute(sq_select_expedition).fetchone()
+        output = self.cur.execute(sq_select_expedition)
         result = output.fetchone()
         dict_row = {output.description[i][0]: result[i] for i in range(len(result))}
 
@@ -239,7 +239,7 @@ class Reporter:
             ORDER BY `date` DESC
             LIMIT 1;
         """
-        output = self.cur.execute(sq_select_expedition).fetchone()
+        output = self.cur.execute(sq_select_expedition)
         result = output.fetchone()
         dict_row = {output.description[i][0]: result[i] for i in range(len(result))}
 
@@ -287,7 +287,9 @@ class Reporter:
                 climbers.append(climber)
 
         if to_csv is True:
-            tv.list_to_csv(f"climbers_between_on_{mountain.name}.csv", climbers)
+            start_str = tv.time_to_str(start, "%Y-%m-%d")
+            end_str = tv.time_to_str(end, "%Y-%m-%d")
+            tv.list_to_csv(f"Climbers {mountain.name} between {start_str} and {end_str}.csv", climbers)
         else:
             return tuple(climbers)
 
@@ -297,7 +299,31 @@ class Reporter:
     # CSV example:
     #   Id, name, country, rank, height, prominence, range
     def get_mountains_in_country(self, country: str, to_csv: bool = False) -> tuple[Mountain, ...]:
-        pass
+        mountains = []
+        sq_select_mountain = """
+            SELECT * FROM `mountains`
+            WHERE `country` = :country
+        """
+        output = self.cur.execute(sq_select_mountain, {'country': country})
+        result = output.fetchall()
+        for row in result:
+            # Maak een dictionary van de row om het makkelijker en duidelijk te kunnen gebruiken
+            dict_row = {output.description[i][0]: row[i] for i in range(len(row))}
+            if to_csv is True:
+                mountains.append(dict_row)
+            else:
+                mountain = Mountain(dict_row['id'],
+                                    dict_row['name'],
+                                    dict_row['country'],
+                                    dict_row['rank'],
+                                    dict_row['height'],
+                                    dict_row['prominence'],
+                                    dict_row['range'])
+                mountains.append(mountain)
+        if to_csv is True:
+            tv.list_to_csv(f"Mountains in country {country}.csv", mountains)
+        else:
+            return tuple(mountains)
 
     # Which climbers are from country X? -> tuple[Climber, ...]
     # Based on given parameter `to_csv = True` should generate CSV file as  `Climbers in country X.csv`
@@ -305,13 +331,52 @@ class Reporter:
     # CSV example:
     #   Id, first_name, last_name, nationality, date_of_birth
     def get_climbers_from_country(self, country: str, to_csv: bool = False) -> tuple[Climber, ...]:
-        pass
+        climbers = []
+
+        sq_select_climbers = """
+            SELECT * FROM `climbers`
+            WHERE `nationality` = :country
+        """
+        output = self.cur.execute(sq_select_climbers, {'country': country})
+        result = output.fetchall()
+        for row in result:
+            # Maak een dictionary van de row om het makkelijker en duidelijk te kunnen gebruiken
+            dict_row = {output.description[i][0]: row[i] for i in range(len(row))}
+            if to_csv is True:
+                climbers.append(dict_row)
+            else:
+                climber = Climber(dict_row['id'],
+                                  dict_row['first_name'],
+                                  dict_row['last_name'],
+                                  dict_row['nationality'],
+                                  dict_row['date_of_birth'])
+                climbers.append(climber)
+
+        if to_csv is True:
+            tv.list_to_csv(f"Climbers in country {country}.csv", climbers)
+        else:
+            return tuple(climbers)
 
 
 if __name__ == "__main__":
-    reporter = Reporter()
-    Putha = Mountain(73, "Putha Hiunchuli", "Nepal", 94, 7246, 1151, "Dhaulagiri Himalaya")
-    print(reporter.get_climbers_that_climbed_mountain_between(Putha,
-                                                              datetime(1966, 1, 1),
-                                                              datetime(1968, 1, 1), 
-                                                              True))
+    r = Reporter()
+    print(r.highest_mountain())
+    print("-----")
+    print(r.longest_and_shortest_expedition())
+    print("-----")
+    print(r.expedition_with_most_climbers())
+    print("-----")
+    print(r.climbers_with_most_expeditions())
+    print("-----")
+    print(r.climbers_with_most_expeditions(True))
+    print("-----")
+    print(r.mountains_with_most_expeditions())
+    print("-----")
+    print(r.get_first_expedition())
+    print("-----")
+    print(r.get_first_expedition(True))
+    print("-----")
+    print(r.get_latest_expedition())
+    print("-----")
+    print(r.get_latest_expedition(True))
+    print("-----")

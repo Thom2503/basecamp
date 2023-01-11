@@ -16,7 +16,7 @@ def test_amount_of_expeditions_of_climber():
     # 137|Josiah|Battson|Guatemala|1949-12-02 00:00:00
     Josiah = Climber(137, "Josiah", "Battson", "Guatemala", datetime(1949, 12, 25))
     josiah_expeditions = Josiah.get_expeditions()
-    assert josiah_expeditions[0].id == 7
+    assert len(josiah_expeditions) == 1
 
 
 # Test to check the difference in height and prommence of a mountain

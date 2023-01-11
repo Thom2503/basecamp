@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 import tvlib as tv
 import sqlite3
 
+db_conn = sqlite3.connect("climbersapp.db")
+
 
 class Expedition:
 
@@ -16,8 +18,6 @@ class Expedition:
         self.duration: int = duration  # in minuten
         self.success: bool = success
 
-        self.db_conn = sqlite3.connect("climbersapp.db")
-
     def add_climber(self, climber: Climber) -> None:
         """
         Voeg een climber toe aan de expedition door het id
@@ -25,14 +25,14 @@ class Expedition:
 
         :param climber: Climber, de climber die je wilt toevoegen
         """
-        cur = self.db_conn.cursor()
+        cur = db_conn.cursor()
         sq_add_climber = """
             INSERT OR REPLACE INTO `expedition_climbers`
             (`climber_id`, `expedition_id`)
             VALUES (:cid, :eid)
         """
         cur.execute(sq_add_climber, {'cid': climber.id, 'eid': self.id})
-        self.db_conn.commit()
+        db_conn.commit()
 
     def get_climbers(self) -> list[Climber]:
         """
@@ -45,7 +45,7 @@ class Expedition:
 
         climbers = []
 
-        cur = self.db_conn.cursor()
+        cur = db_conn.cursor()
         sq_select_climbers = """
             SELECT `climbers`.*
               FROM `climbers`
@@ -76,7 +76,7 @@ class Expedition:
         """
         from mountain import Mountain
 
-        cur = self.db_conn.cursor()
+        cur = db_conn.cursor()
         sq_select_mountain = """
             SELECT `mountains`.*
               FROM `mountains`

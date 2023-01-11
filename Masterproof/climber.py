@@ -2,6 +2,8 @@ from __future__ import annotations
 from datetime import datetime, date
 import sqlite3
 
+db_conn = sqlite3.connect("climbersapp.db")
+
 
 class Climber:
 
@@ -11,8 +13,6 @@ class Climber:
         self.last_name: str = last_name
         self.nationality: str = nationality
         self.date_of_birth: datetime = date_of_birth
-
-        self.db_conn = sqlite3.connect("climbersapp.db")
 
     def get_age(self) -> int:
         """
@@ -35,7 +35,7 @@ class Climber:
         :return expeditions: list, lijst met de expeditons van de climber
         """
         from expedition import Expedition
-        cur = self.db_conn.cursor()
+        cur = db_conn.cursor()
 
         expeditions = []
         sq_get_expeditions = """

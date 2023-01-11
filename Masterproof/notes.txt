@@ -46,3 +46,21 @@ WHERE `id` NOT IN (
 	FROM `mountains`
 	GROUP BY `name`
 );
+
+
+Deze moet nu goed zijn:
+SELECT `climbers`.*
+  FROM `expedition_climbers`
+    LEFT JOIN `climbers`
+	ON `expedition_climbers`.`climber_id` = `climbers`.`id`
+	LEFT JOIN `expeditions`
+	ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+  GROUP BY `expedition_climbers`.`climber_id`
+  HAVING COUNT(`expedition_climbers`.`climber_id`) = (
+    SELECT MAX(`t1`.`count`)
+	FROM (
+      SELECT COUNT(`expedition_id`) as `count`
+	  FROM `expedition_climbers`
+	  GROUP BY `climber_id`
+	) `t1`
+  );

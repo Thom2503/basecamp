@@ -1,6 +1,8 @@
 from __future__ import annotations
 import sqlite3
 
+db_conn = sqlite3.connect("climbersapp.db")
+
 
 class Mountain:
 
@@ -12,8 +14,6 @@ class Mountain:
         self.height: int = height
         self.prominence: int = prominence
         self.range: str = range
-
-        self.db_conn = sqlite3.connect("climbersapp.db")
 
     def height_difference(self) -> int:
         """
@@ -31,7 +31,7 @@ class Mountain:
 
         expeditions = []
 
-        cur = self.db_conn.cursor()
+        cur = db_conn.cursor()
         sq_get_expeditions = """
             SELECT * FROM `expeditions`
               WHERE `mountain_id` = :mid
