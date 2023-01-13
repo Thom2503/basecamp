@@ -4,7 +4,6 @@ import tvlib as tv
 
 # as is erbij om circular definitions te vermijden
 from climber import Climber as Climber
-from mountain import Mountain as Mountain
 from expedition import Expedition as Expedition
 
 FILE_NAME = "expeditions.json"
@@ -146,15 +145,15 @@ def main():
     con = sqlite3.connect("climbersapp.db")
     cur = con.cursor()
 
-    is_empty = is_empty_db(cur)
-    if is_empty is True:
-        # zorg eerst dat de bergen zijn toegevoegd omdat expeditions die
-        # gebruikt
-        add_mountains(cur)
+    # is_empty = is_empty_db(cur)
+    # if is_empty is True:
+    # zorg eerst dat de bergen zijn toegevoegd omdat expeditions die
+    # gebruikt
+    add_mountains(cur)
 
-        # voeg expeditions toe aan de database tegelijkertijd ook met
-        # de climbers van die expedition om de connectie te maken
-        add_expeditions(con)
+    # voeg expeditions toe aan de database tegelijkertijd ook met
+    # de climbers van die expedition om de connectie te maken
+    add_expeditions(con)
 
 
 if __name__ == "__main__":

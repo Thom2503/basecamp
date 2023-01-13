@@ -60,6 +60,7 @@ class Reporter:
             SELECT * FROM `expeditions`
               WHERE `duration` = (SELECT MAX(`duration`) FROM `expeditions`)
                  OR `duration` = (SELECT MIN(`duration`) FROM `expeditions`)
+              ORDER BY `duration` DESC;
         """
         output = self.cur.execute(sq_select_expeditions)
         result = output.fetchall()
@@ -125,22 +126,22 @@ class Reporter:
               FROM `expedition_climbers`
                 LEFT JOIN `climbers`
                 ON `expedition_climbers`.`climber_id` = `climbers`.`id`
-                LEFT JOIN `expeditions`
-                ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
-        """
-
-        if only_succesful is True:
-            sq_select_climbers += """
-              WHERE `expeditions`.`success` = 1
-        """
-
-        sq_select_climbers += """
               GROUP BY `expedition_climbers`.`climber_id`
               HAVING COUNT(`expedition_climbers`.`climber_id`) = (
                 SELECT MAX(`t1`.`count`)
                 FROM (
                   SELECT COUNT(`expedition_id`) as `count`
                   FROM `expedition_climbers`
+        """
+
+        if only_succesful is True:
+            sq_select_climbers += """
+                  LEFT JOIN `expeditions`
+                  ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+                  WHERE `expeditions`.`success` = 1
+        """
+
+        sq_select_climbers += """
                   GROUP BY `climber_id`
                 ) `t1`
               );
@@ -165,18 +166,18 @@ class Reporter:
         mountains = []
 
         sq_select_mountain = """
-            WITH `max_subquery` AS (
-              SELECT COUNT(`mountain_id`) as `c`
-              FROM `expeditions`
-              GROUP BY `mountain_id`
-              ORDER BY `c` DESC
-            )
-            SELECT * FROM `mountains`
-              WHERE `id` = (
-                SELECT `mountain_id`
-                FROM `expeditions`
-                GROUP BY `mountain_id`
-                LIMIT (SELECT MAX(`c`) FROM `max_subquery`)
+            SELECT `mountains`.*
+              FROM `mountains`
+                LEFT JOIN `expeditions`
+                ON `expeditions`.`mountain_id` = `mountains`.`id`
+              GROUP BY `expeditions`.`mountain_id`
+              HAVING COUNT(`expeditions`.`mountain_id`) = (
+                SELECT MAX(`t1`.`count`)
+                FROM (
+                  SELECT COUNT(`mountain_id`) as `count`
+                  FROM `expeditions`
+                  GROUP BY `mountain_id`
+                ) `t1`
               );
         """
         output = self.cur.execute(sq_select_mountain)
@@ -258,7 +259,9 @@ class Reporter:
     # otherwise it should just return the value as tuple(Climber, ...)
     # CSV example:
     #   Id, first_name, last_name, nationality, date_of_birth
-    def get_climbers_that_climbed_mountain_between(self, mountain: Mountain, start: datetime, end: datetime, to_csv: bool = False) -> tuple[Climber, ...]:
+    def get_climbers_that_climbed_mountain_between(
+            self, mountain: Mountain, start: datetime, end: datetime, to_csv: bool = False
+    ) -> tuple[Climber, ...]:
         climbers = []
 
         sq_select_climbers = """
@@ -289,7 +292,7 @@ class Reporter:
         if to_csv is True:
             start_str = tv.time_to_str(start, "%Y-%m-%d")
             end_str = tv.time_to_str(end, "%Y-%m-%d")
-            tv.list_to_csv(f"Climbers {mountain.name} between {start_str} and {end_str}.csv", climbers)
+            tv.list_to_csv(f"Climbers mountain {mountain.name} between {start_str} and {end_str}.csv", climbers)
         else:
             return tuple(climbers)
 

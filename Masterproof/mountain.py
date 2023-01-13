@@ -1,4 +1,3 @@
-from __future__ import annotations
 import sqlite3
 
 db_conn = sqlite3.connect("climbersapp.db")
@@ -21,7 +20,7 @@ class Mountain:
         """
         return self.height - self.prominence
 
-    def get_expeditions(self) -> list[Expedition]:
+    def get_expeditions(self) -> list:
         """
         Zoek alle expeditons die op deze berg gedaan zijn.
 

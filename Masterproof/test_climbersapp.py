@@ -40,12 +40,14 @@ def test_expedition_date_conversion():
     # 1|The journey of Momhil Sar|65|Pakistan|1965-08-18 00:00:00|Indonesia|1308|1
     Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
     assert Momhil.convert_date("%Y-%m-%d") == "1965-08-18"
+    expedition = Expedition(5, None, None, None, "1956-12-31", None, None, None)
+    assert expedition.convert_date('%d-%m-%Y') == "31-12-1956"
 
 
 # Test to check if the duration is converted from 1H19 to the specified format
 def test_expedition_duration_conversion():
-    Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
-    assert Momhil.convert_duration("%H:%M") == "21:48", "1308 minuten is 21 uur and 48 minuten"
+    Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1848, True)
+    assert Momhil.convert_duration("%H:%M") == "30:48", "1308 minuten is 21 uur and 48 minuten"
 
 
 # Test to check the amount of climbers on a specified expedition

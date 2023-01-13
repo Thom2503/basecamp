@@ -1,5 +1,4 @@
-from __future__ import annotations
-from datetime import datetime, timedelta
+from datetime import datetime
 import tvlib as tv
 import sqlite3
 
@@ -18,7 +17,7 @@ class Expedition:
         self.duration: int = duration  # in minuten
         self.success: bool = success
 
-    def add_climber(self, climber: Climber) -> None:
+    def add_climber(self, climber: object) -> None:
         """
         Voeg een climber toe aan de expedition door het id
         van de meegegeven climber object te gebruiken
@@ -34,7 +33,7 @@ class Expedition:
         cur.execute(sq_add_climber, {'cid': climber.id, 'eid': self.id})
         db_conn.commit()
 
-    def get_climbers(self) -> list[Climber]:
+    def get_climbers(self) -> list:
         """
         Maak een list van de climbers die mee hebben
         gedaan aan deze expedition
@@ -68,7 +67,7 @@ class Expedition:
 
         return climbers
 
-    def get_mountain(self) -> Mountain:
+    def get_mountain(self) -> object:
         """
         Krijg de berg van de de expedition
 
@@ -78,13 +77,13 @@ class Expedition:
 
         cur = db_conn.cursor()
         sq_select_mountain = """
-            SELECT `mountains`.*
+            SELECT DISTINCT `mountains`.*
               FROM `mountains`
               LEFT JOIN `expeditions`
               ON `mountains`.`id` = `expeditions`.`mountain_id`
-              WHERE `expeditions`.`id` = :eid
+              WHERE `mountains`.`id` = :mid
         """
-        output = cur.execute(sq_select_mountain, {'eid': self.id})
+        output = cur.execute(sq_select_mountain, {'mid': self.mountain_id})
         result = output.fetchone()
         dict_row = {output.description[i][0]: result[i] for i in range(len(result))}
 
@@ -107,6 +106,9 @@ class Expedition:
 
         :return converted: str, de veranderde date string
         """
+        if isinstance(self.date, str):
+            self.date = tv.str_to_time(self.date, "%Y-%m-%d")
+
         return tv.time_to_str(self.date, to_format)
 
     def convert_duration(self, to_format: str) -> str:
@@ -119,17 +121,15 @@ class Expedition:
         :return converted: str, de veranderde duration string
         """
         # maak een timedelta object zodat we er berekeningen mee kunnen doen
-        td = timedelta(minutes=self.duration)
-        # haal de dagen uit de secondes
-        days, seconds = divmod(td.total_seconds(), 86400)  # 86400 is het aantal secondes in een dag
-        hours, rem = divmod(seconds, 3600)  # haal het aantal uur uit de secondes
-        minutes, seconds = divmod(rem, 60)  # haal het aantal minuten uit de secondes
-
-        # maak er een datetime object van zodat we het kunnen formaten
-        # jaar, maand en dag op begin van unix tijd maar maakt niks uit
-        # wat daar komt
-        dt = datetime(1970, 1, 1, int(hours), int(minutes), int(seconds))
-        return tv.time_to_str(dt, to_format)
+        # td = timedelta(minutes=self.duration)
+        days, minutes = divmod(self.duration, 1440)
+        if to_format == "%H:%M":
+            hours, minutes = divmod(minutes % 1440, 60)  # haal het aantal uur uit de secondes
+            hours += (days * 24)
+            return to_format.replace("%H", str(hours)).replace("%M", str(minutes))
+        else:
+            hours, minutes = divmod(minutes, 60)  # haal het aantal uur uit de secondes
+            return to_format.replace("%D", f"{days:02d}").replace("%H", f"{hours:02d}").replace("%M", f"{minutes}")
 
     # Representation method
     # This will format the output in the correct order

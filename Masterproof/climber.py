@@ -1,4 +1,3 @@
-from __future__ import annotations
 from datetime import datetime, date
 import sqlite3
 
@@ -28,7 +27,7 @@ class Climber:
         age -= ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
         return age
 
-    def get_expeditions(self) -> list[Expedition]:
+    def get_expeditions(self) -> list:
         """
         Maak een lijst met expedition objects van deze climber
 
