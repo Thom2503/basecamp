@@ -81,3 +81,23 @@ SELECT `mountains`.*
     ) `t1`
   );
   
+
+SELECT `climbers`.*
+  FROM `expedition_climbers`
+    LEFT JOIN `climbers`
+	ON `expedition_climbers`.`climber_id` = `climbers`.`id`
+	LEFT JOIN `expeditions`
+	ON `expeditions`.`id` = `expedition_climbers`.`expedition_id`
+  WHERE `expeditions`.`success` = 1
+  GROUP BY `expedition_climbers`.`climber_id`
+  HAVING COUNT(`expedition_climbers`.`climber_id`) = (
+    SELECT MAX(`t1`.`count`)
+	FROM (
+      SELECT COUNT(`expedition_id`) as `count`, `climber_id`
+	  FROM `expedition_climbers`
+	  LEFT JOIN `expeditions`
+	  ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+	  WHERE `expeditions`.`success` = 1
+	  GROUP BY `climber_id`
+	) `t1`
+  );

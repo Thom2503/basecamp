@@ -106,6 +106,8 @@ class Expedition:
 
         :return converted: str, de veranderde date string
         """
+        # als de date in het object een string is
+        # moet het eerst naar een datetime object veranderd worden
         if isinstance(self.date, str):
             self.date = tv.str_to_time(self.date, "%Y-%m-%d")
 
@@ -120,16 +122,20 @@ class Expedition:
 
         :return converted: str, de veranderde duration string
         """
-        # maak een timedelta object zodat we er berekeningen mee kunnen doen
-        # td = timedelta(minutes=self.duration)
+        # haal de dagen en wat over is uit de duration
+        # zodat daar verder mee gerekent kan worden
         days, minutes = divmod(self.duration, 1440)
         if to_format == "%H:%M":
-            hours, minutes = divmod(minutes % 1440, 60)  # haal het aantal uur uit de secondes
-            hours += (days * 24)
-            return to_format.replace("%H", str(hours)).replace("%M", str(minutes))
+            # bereken het uur en de overgebleven minuten uit de overgebleven
+            # minuten van de dag
+            hours, minutes = divmod(minutes % 1440, 60)  # haal het aantal uur uit de minuten
+            hours += (days * 24)  # stop het aantal uur van een dag weer in het uur
+
+            # verplaats alle format string met de uur en minuten
+            return to_format.replace("%H", f"{hours:02d}").replace("%M", f"{minutes:02d}")
         else:
-            hours, minutes = divmod(minutes, 60)  # haal het aantal uur uit de secondes
-            return to_format.replace("%D", f"{days:02d}").replace("%H", f"{hours:02d}").replace("%M", f"{minutes}")
+            hours, minutes = divmod(minutes, 60)  # haal het aantal uur uit de minuten
+            return to_format.replace("%D", f"{days:02d}").replace("%H", f"{hours:02d}").replace("%M", f"{minutes:02d}")
 
     # Representation method
     # This will format the output in the correct order

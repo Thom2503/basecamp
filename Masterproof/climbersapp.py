@@ -150,6 +150,7 @@ def main():
     # zorg eerst dat de bergen zijn toegevoegd omdat expeditions die
     # gebruikt
     add_mountains(cur)
+    con.commit()
 
     # voeg expeditions toe aan de database tegelijkertijd ook met
     # de climbers van die expedition om de connectie te maken

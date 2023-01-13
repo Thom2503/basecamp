@@ -1,11 +1,29 @@
 from climbersapp import is_empty_db, add_expeditions, add_mountains
+import tvlib as tv
 
 import sqlite3
 
 """
-Dit is mijn uitbreiding op de masterproof wat een simpele crud is
-waar je expeditions, climbers en mountains kan toevoegen.
+Dit is mijn uitbreiding op de masterproof wat een simpele crud app is
+waar je expeditions, climbers en mountains kan toevoegen, verwijderen en bekijken.
 """
+
+
+def is_correct_date(date: str) -> bool:
+    """
+    Functie om te checken of de gegeven string
+    correcte datum is op basis van %Y-%m-%d
+
+    :param date: str, string om te checken
+    """
+    # bool om te checken of de datum een correcte datum is
+    is_correct_date = False
+    try:
+        is_correct_date = bool(tv.str_to_time(date, "%Y-%m-%d"))
+    except ValueError:
+        is_correct_date = False
+
+    return is_correct_date
 
 
 def add_climber(cur: object, climber_data: list) -> None:
@@ -20,12 +38,12 @@ def add_climber(cur: object, climber_data: list) -> None:
     sq_climber_data['last_name'] = climber_data[1].capitalize()
     sq_climber_data['nationality'] = climber_data[2]
 
-    # check of de datum correct is
-    if len(climber_data[3].split("-")) == 3:
-        sq_climber_data['date_of_birth'] = climber_data[3]
-    else:
-        print("Incorrect date!")
+    # check of de datum correct is als Y-m-d
+    if is_correct_date(climber_data[3]) is False:
+        print("Climber: incorrect date given, needs to be year-month-day!")
         return
+
+    sq_climber_data['date_of_birth'] = climber_data[3]
 
     sq_add_climber = """
         INSERT INTO `climbers`
@@ -85,6 +103,8 @@ def add_expedition(cur: object, expedition_data: list) -> None:
     sq_expedition_data = {}
     sq_expedition_data['name'] = expedition_data[0].capitalize()
 
+    # zoeken naar de berg want er mag geen id ingevuld worden
+    # van een berg die niet bestaat.
     sq_select_mountain = """
         SELECT * FROM `mountains` WHERE `id` = :mid
     """
@@ -96,7 +116,7 @@ def add_expedition(cur: object, expedition_data: list) -> None:
     sq_expedition_data['mid'] = expedition_data[1]
     sq_expedition_data['start'] = expedition_data[2]
 
-    if len(expedition_data[3].split("-")) != 3:
+    if is_correct_date(expedition_data[3]) is False:
         print("Expedition: incorrect date given!")
         return
 
@@ -133,10 +153,15 @@ def print_data(cur: object, search_table: str, search_term: str) -> str:
     :param search_table: str, table om in te zoeken
     :param search_term: str, term om op te zoeken
     """
+    # een niet heel veilige manier om de db table te kiezen
+    # maar dit wilde ik zo veel mogelijk dynamisch maken.
     sq_get_data = f"""
         SELECT *
         FROM `{search_table}`
     """
+    # alle opties voor het opzoeken van de data in de database
+    # bij elke statement staat er data wat gezocht moet worden
+    # met een where clause
     if search_table == "climbers":
         sq_get_data += """
         WHERE `id` = :id
@@ -199,6 +224,8 @@ def delete_data(cur: object, delete_table: str, id_to_delete: int) -> None:
     :param delete_table: str, table om uit te deleten
     :param id_to_delete: int, id voor de where clause
     """
+    # weer een beetje onveilige query om dynamisch
+    # de table te kiezen
     sq_delete_data = f"""
         DELETE FROM `{delete_table}`
         WHERE `id` = :id
@@ -246,7 +273,7 @@ def main():
             print("Data to add: first name, last name, nationality, date of birth (Year-month-day)")
             climber_data = input("add climber > ")
             climber_data_parts = climber_data.split(",")
-            
+
             if len(climber_data_parts) != 4:
                 print("Incorrect number of data!")
 
@@ -305,7 +332,6 @@ def main():
             con.commit()
         else:
             print("Wrong command!")
-            quit_program = True
 
     con.close()
 

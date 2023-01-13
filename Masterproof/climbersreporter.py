@@ -121,11 +121,29 @@ class Reporter:
     def climbers_with_most_expeditions(self, only_succesful: bool = False) -> tuple[Climber, ...]:
         climbers = []
 
+        # query die de climbers met de meeste expeditions moet zoeken
+        # ik gebruik 2 subqueries om de ids te vinden van de climbers
+        # met de meeste expeditions, waar ik van dat resultaat de
+        # data van die gevonden ids in climbers op zoek
         sq_select_climbers = """
             SELECT `climbers`.*
               FROM `expedition_climbers`
                 LEFT JOIN `climbers`
                 ON `expedition_climbers`.`climber_id` = `climbers`.`id`
+        """
+        # deze if statements staan er om te filteren op expeditions
+        # die succesvol waren, dit moet beide in de main query
+        # en de subquery omdat ze beide met elkaar te maken hebben
+        # ik vind het nog niet zo mooi om het bij beide te doen
+        # maar ik heb het wel in 1 query kunnen krijgen
+        if only_succesful is True:
+            sq_select_climbers += """
+                LEFT JOIN `expeditions`
+                ON `expedition_climbers`.`expedition_id` = `expeditions`.`id`
+                WHERE `expeditions`.`success` = 1
+        """
+
+        sq_select_climbers += """
               GROUP BY `expedition_climbers`.`climber_id`
               HAVING COUNT(`expedition_climbers`.`climber_id`) = (
                 SELECT MAX(`t1`.`count`)
@@ -165,6 +183,9 @@ class Reporter:
     def mountains_with_most_expeditions(self) -> tuple[Mountain, ...]:
         mountains = []
 
+        # dit is weer hetzelfde verhaal als bij de climbers met de meeste
+        # expeditions, maar dan zonder dat er alleen succesvol zouden
+        # moeten kunnen zijn.
         sq_select_mountain = """
             SELECT `mountains`.*
               FROM `mountains`

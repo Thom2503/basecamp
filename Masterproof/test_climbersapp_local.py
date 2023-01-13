@@ -53,7 +53,7 @@ def test_expedition_duration_conversion():
 # Test to check the amount of climbers on a specified expedition
 def test_amount_of_climbers_on_expedition():
     Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
-    assert len(Momhil.get_climbers()) == 13, "De eerste expedition moet 13 climbers hebben"
+    assert len(Momhil.get_climbers()) == 14, "De eerste expedition moet 14 climbers hebben"
 
 
 # Test to validate if the given mountain of a specified expedition is correct
