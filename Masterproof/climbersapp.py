@@ -155,6 +155,8 @@ def main():
     # de climbers van die expedition om de connectie te maken
     add_expeditions(con)
 
+    con.close()
+
 
 if __name__ == "__main__":
     main()

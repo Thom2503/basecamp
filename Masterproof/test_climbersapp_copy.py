@@ -14,10 +14,9 @@ def test_age_of_climber():
 def test_amount_of_expeditions_of_climber():
     # test data
     # 137|Josiah|Battson|Guatemala|1949-12-02 00:00:00
-    # Josiah = Climber(137, "Josiah", "Battson", "Guatemala", datetime(1949, 12, 25))
-    # josiah_expeditions = Josiah.get_expeditions()
-    # assert len(josiah_expeditions) == 1
-    assert True is True
+    Josiah = Climber(137, "Josiah", "Battson", "Guatemala", datetime(1949, 12, 25))
+    josiah_expeditions = Josiah.get_expeditions()
+    assert len(josiah_expeditions) == 1
 
 
 # Test to check the difference in height and prommence of a mountain
@@ -30,10 +29,9 @@ def test_height_difference_mountain():
 def test_amount_of_expeditions_of_mountain():
     # test data
     # 73|Putha Hiunchuli|Nepal|94|7246|1151|Dhaulagiri Himalaya
-    # Putha = Mountain(73, "Putha Hiunchuli", "Nepal", 94, 7246, 1151, "Dhaulagiri Himalaya")
-    # putha_expeditions = Putha.get_expeditions()
-    # assert len(putha_expeditions) == 1
-    assert True is True
+    Putha = Mountain(73, "Putha Hiunchuli", "Nepal", 94, 7246, 1151, "Dhaulagiri Himalaya")
+    putha_expeditions = Putha.get_expeditions()
+    assert len(putha_expeditions) == 1
 
 
 # Test to check if the returned date matches the specified format for that expedition date
@@ -54,16 +52,14 @@ def test_expedition_duration_conversion():
 
 # Test to check the amount of climbers on a specified expedition
 def test_amount_of_climbers_on_expedition():
-    # Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
-    # assert len(Momhil.get_climbers()) == 13, "De eerste expedition moet 13 climbers hebben"
-    assert True is True
+    Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
+    assert len(Momhil.get_climbers()) == 13, "De eerste expedition moet 13 climbers hebben"
 
 
 # Test to validate if the given mountain of a specified expedition is correct
 def test_mountain_on_expedition():
-    # Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
-    # mountain_obj = Momhil.get_mountain()
+    Momhil = Expedition(1, "The Journey to Momhil Sar", 65, "Pakistan", datetime(1965, 8, 18), "Indonesia", 1308, True)
+    mountain_obj = Momhil.get_mountain()
 
-    # # als het id klopt kan je er van uit gaan dat het allemaal klopt
-    # assert mountain_obj.id == 65, "Het id van de berg van deze expedition zou 65 moeten zijn"
-    assert True is True
+    # als het id klopt kan je er van uit gaan dat het allemaal klopt
+    assert mountain_obj.id == 65, "Het id van de berg van deze expedition zou 65 moeten zijn"
